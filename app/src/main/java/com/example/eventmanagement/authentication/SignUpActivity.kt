@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.widget.Toast
 
 import com.example.eventmanagement.databinding.ActivitySignUpBinding
+import com.example.eventmanagement.retrofit.RetrofitClient
+import com.example.eventmanagement.users.NewUser
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
@@ -38,8 +43,31 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             else{
-                Toast.makeText(this@SignUpActivity, "Everything is Fine", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@SignUpActivity, "Everything is Fine", Toast.LENGTH_SHORT).show()
+                val userName = binding.editTextUsernameSignUp.text.toString()
+                val userPassword = binding.editTextPasswordSignUp.text.toString()
+                registerUser(userName,userPassword)
             }
         }
+    }
+
+    private fun registerUser(userName: String, userPassword: String) {
+        val newUser = NewUser(userName,userPassword)
+        val apiService = RetrofitClient.create()
+        val call  = apiService.registerNewUser(newUser)
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@SignUpActivity, "User Created Successfully", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this@SignUpActivity, "User Name is already Taken", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(this@SignUpActivity, "Something Went Wrong", Toast.LENGTH_SHORT).show()
+            }
+        })
+
     }
 }

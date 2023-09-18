@@ -43,6 +43,7 @@ class EventDisplayerActivity : AppCompatActivity() {
 
 
 
+
                         val adapter = EventsRecyclerView(eventList,this@EventDisplayerActivity)
 
 
