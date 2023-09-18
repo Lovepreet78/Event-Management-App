@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:padding="@dimen/_16sdp"
+        tools:context=".authentication.LoginActivity">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_6sdp"
+            app:cardCornerRadius="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#2196F3"
+                android:padding="@dimen/_10sdp"
+                >
+
+                <ImageView
+                    android:id="@+id/logoImageView"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/profile_pic"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <EditText
+
+                    android:id="@+id/usernameEditTextLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_below="@id/logoImageView"
+                    android:layout_marginTop="@dimen/_9sdp"
+                    android:hint="Username"
+                    android:inputType="text"
+                    android:padding="@dimen/_7sdp"
+                    android:background="@drawable/edittext_bg"
+                    />
+
+                <EditText
+                    android:id="@+id/passwordEditTextLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_below="@id/usernameEditTextLogin"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:padding="@dimen/_7sdp"
+
+                    android:background="@drawable/edittext_bg"/>
+
+                <Button
+                    android:id="@+id/loginButton"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_below="@id/passwordEditTextLogin"
+                    android:layout_marginTop="@dimen/_24sdp"
+                    android:text="Login"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#FFFFFF"
+
+                    android:background="@drawable/edittext_bg">
+
+                </Button>
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+    </RelativeLayout>

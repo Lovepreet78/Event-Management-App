@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/home_screen_bg"
+    android:gravity="center"
+    tools:context=".HomeActivity">
+    <ImageView
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:background="@drawable/event_management_home_icon"
+        android:layout_marginBottom="@dimen/_20sdp"/>
+<!--    <TextView-->
+<!--        android:background="@drawable/text_bg"-->
+<!--        android:padding="@dimen/_5sdp"-->
+
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--       android:textColor="@color/textColor"-->
+<!--        android:text="Event Management"-->
+<!--        android:textSize="@dimen/_20sdp"-->
+<!--        android:textStyle="italic"-->
+<!--        android:layout_gravity="center"-->
+<!--android:layout_marginBottom="@dimen/_30sdp"-->
+<!--        />-->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continue as guest"
+            android:id="@+id/guestMode"
+
+
+
+            />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/loginButtonHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:layout_marginTop="@dimen/_20sdp"
+
+            />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signUpButtonHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:layout_marginTop="@dimen/_20sdp"
+
+            />
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>
