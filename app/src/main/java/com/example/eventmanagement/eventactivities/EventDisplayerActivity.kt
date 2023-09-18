@@ -2,15 +2,16 @@ package com.example.eventmanagement.eventactivities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.eventmanagement.R
+
 import com.example.eventmanagement.databinding.ActivityEventDisplayerBinding
-import com.example.eventmanagement.eventmodel.Content
+
 import com.example.eventmanagement.eventmodel.EventModel
 import com.example.eventmanagement.recyclerview.EventsRecyclerView
 import com.example.eventmanagement.retrofit.RetrofitClient
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -27,6 +28,7 @@ class EventDisplayerActivity : AppCompatActivity() {
 
         getEvents()
     }
+    @OptIn(DelicateCoroutinesApi::class)
     private fun getEvents() {
 
         GlobalScope.launch {

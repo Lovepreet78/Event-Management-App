@@ -6,7 +6,6 @@ import retrofit2.http.GET
 
 interface EventsApi {
     @GET("events")
-
     fun getEvents(): Call<EventModel>
 
 

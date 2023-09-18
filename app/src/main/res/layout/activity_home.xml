@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@drawable/home_screen_bg"
     android:gravity="center"
-    tools:context=".HomeActivity">
+    tools:context=".intialactivity.HomeActivity">
     <ImageView
         android:layout_width="@dimen/_80sdp"
         android:layout_height="@dimen/_80sdp"

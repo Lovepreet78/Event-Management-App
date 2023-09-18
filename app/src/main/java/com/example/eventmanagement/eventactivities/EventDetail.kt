@@ -1,11 +1,11 @@
-package com.example.eventmanagement
+package com.example.eventmanagement.eventactivities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.eventmanagement.databinding.ActivityEventDetailBinding
 
 class EventDetail : AppCompatActivity() {
-    lateinit var binding: ActivityEventDetailBinding
+    private lateinit var binding: ActivityEventDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventDetailBinding.inflate(layoutInflater)

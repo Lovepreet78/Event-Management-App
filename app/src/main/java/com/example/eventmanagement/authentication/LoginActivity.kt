@@ -3,12 +3,12 @@ package com.example.eventmanagement.authentication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.eventmanagement.R
+
 import com.example.eventmanagement.databinding.ActivityLoginBinding
-import com.example.eventmanagement.databinding.ActivitySignUpBinding
+
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var binding:ActivityLoginBinding
+    private lateinit var binding:ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
