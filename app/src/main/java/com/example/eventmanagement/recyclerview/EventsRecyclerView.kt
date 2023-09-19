@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventmanagement.eventactivities.EventDetail
 import com.example.eventmanagement.R
-import com.example.eventmanagement.eventmodel.Content
+import com.example.eventmanagement.eventmodel.EventDTO
 
-class EventsRecyclerView(private val events:List<Content>, private val context: Context): RecyclerView.Adapter<EventsRecyclerView.ViewHolder>() {
+class EventsRecyclerView(private val events:List<EventDTO>, private val context: Context): RecyclerView.Adapter<EventsRecyclerView.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

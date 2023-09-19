@@ -27,6 +27,7 @@ class EventDisplayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getEvents()
+
     }
     @OptIn(DelicateCoroutinesApi::class)
     private fun getEvents() {

@@ -1,10 +1,12 @@
 package com.example.eventmanagement.authentication
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 
 import com.example.eventmanagement.databinding.ActivityLoginBinding
+import com.example.eventmanagement.eventactivities.EventPostData
 
 
 class LoginActivity : AppCompatActivity() {
@@ -25,8 +27,11 @@ class LoginActivity : AppCompatActivity() {
             }
 
             else{
-                Toast.makeText(this@LoginActivity, "Everything is Fine", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@LoginActivity, "Everything is Fine", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@LoginActivity,EventPostData::class.java)
+                startActivity(intent)
             }
+
         }
     }
 }

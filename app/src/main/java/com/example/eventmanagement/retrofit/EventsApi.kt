@@ -8,12 +8,9 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface EventsApi {
-    @GET("events")
-    fun getEvents(): Call<EventModel>
-
     @POST("register")
     fun registerNewUser(@Body user: NewUser): Call<Void>
 
-
-
+    @GET("events")
+    fun getEvents(): Call<EventModel>
 }

@@ -9,7 +9,7 @@ class EventModel(
 //    val startDay: String,
 //    val startTime: String,
 //    val title: String
-    val content: List<Content>,
+    val content: List<EventDTO>,
     val empty: Boolean,
     val first: Boolean,
     val last: Boolean,
