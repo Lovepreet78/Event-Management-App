@@ -23,9 +23,23 @@ class EventPostData : AppCompatActivity() {
         binding.timeSelector.setOnClickListener {
             openDialogTime()
         }
+        binding.SubmitNewEvent.setOnClickListener {
+            val eventTitle = binding.editTextTitle.text.toString()
+            val eventDescription = binding.editTextDescription.toString()
+            val eventLocation = binding.editTextLocation.toString()
+            val time = binding.timeShower.text.toString()
+            val date = binding.timeShower.text.toString()
+            val eventFormLink :String? = null
+
+            submitNewEvent()
+        }
 
 
 
+    }
+
+    private fun submitNewEvent() {
+        TODO("Not yet implemented")
     }
 
     private fun openDialogTime() {

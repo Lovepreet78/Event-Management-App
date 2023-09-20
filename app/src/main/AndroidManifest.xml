@@ -15,6 +15,15 @@
         android:theme="@style/Theme.EventManagement"
         tools:targetApi="31">
         <activity
+            android:name=".admin.AdminShowAllEvents"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminShowAllUsers"
+            android:exported="false" />
+        <activity
+            android:name=".users.userpostedevents.UserPostedEvents"
+            android:exported="false" />
+        <activity
             android:name=".eventactivities.EventPostData"
             android:exported="false" />
         <activity

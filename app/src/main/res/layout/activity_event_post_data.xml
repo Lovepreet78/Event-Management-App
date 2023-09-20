@@ -73,7 +73,7 @@
                 android:id="@+id/timeShower"
                 android:textSize="@dimen/_15sdp"
                 android:layout_gravity="center_horizontal"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,6 +81,7 @@
                 android:id="@+id/timeSelector"
                 android:layout_gravity="center_horizontal"/>
             <TextView
+
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,8 +89,8 @@
                 android:textSize="@dimen/_15sdp"
                 android:layout_gravity="center_horizontal"
                 />
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_marginTop="@dimen/_15sdp"
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Select Date"
@@ -109,6 +110,17 @@
 <!--                android:layout_height="wrap_content"-->
 <!--                android:layout_marginTop="10dp"-->
 <!--                android:id="@+id/datePicker"/>-->
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:id="@+id/SubmitNewEvent"
+
+                android:layout_gravity="center_horizontal"
+
+                />
+
         </LinearLayout>
 
     </ScrollView>

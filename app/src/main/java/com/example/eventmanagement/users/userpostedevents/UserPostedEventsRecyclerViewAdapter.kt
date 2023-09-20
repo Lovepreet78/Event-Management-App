@@ -1,4 +1,4 @@
-package com.example.eventmanagement.recyclerview
+package com.example.eventmanagement.users.userpostedevents
 
 import android.content.Context
 import android.content.Intent
@@ -7,17 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.eventmanagement.eventactivities.EventDetail
 import com.example.eventmanagement.R
+import com.example.eventmanagement.eventactivities.EventDetail
 import com.example.eventmanagement.eventmodel.EventDTO
+import com.example.eventmanagement.eventactivities.recyclerview.EventsRecyclerView
 
-class EventsRecyclerView(private val events:List<EventDTO>, private val context: Context): RecyclerView.Adapter<EventsRecyclerView.ViewHolder>() {
 
+class UserPostedEventsRecyclerViewAdapter(private val events:List<EventDTO>, private val context: Context): RecyclerView.Adapter<UserPostedEventsRecyclerViewAdapter.ViewHolder>()  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.event_item, parent, false)
         return ViewHolder(view)
     }
+
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
@@ -50,12 +53,3 @@ class EventsRecyclerView(private val events:List<EventDTO>, private val context:
 
     }
 }
-
-
-
-
-
-
-
-
-

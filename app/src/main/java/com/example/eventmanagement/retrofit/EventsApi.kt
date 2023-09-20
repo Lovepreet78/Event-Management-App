@@ -1,16 +1,23 @@
 package com.example.eventmanagement.retrofit
 
 import com.example.eventmanagement.eventmodel.EventModel
-import com.example.eventmanagement.users.NewUser
+import com.example.eventmanagement.users.AuthUser
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface EventsApi {
     @POST("register")
-    fun registerNewUser(@Body user: NewUser): Call<Void>
+    fun registerNewUser(@Body user: AuthUser): Call<Void>
+
+    @POST("login")
+    fun loginUser(@Body user : AuthUser) : Call<Void>
 
     @GET("events")
     fun getEvents(): Call<EventModel>
+
+    @GET("events")
+    fun getEventsPages(@Query("page") page:Int): Call<EventModel>
 }
