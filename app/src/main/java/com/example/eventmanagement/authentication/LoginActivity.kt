@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.example.eventmanagement.constants.Cookie
 
 import com.example.eventmanagement.databinding.ActivityLoginBinding
 import com.example.eventmanagement.eventactivities.EventDisplayerActivity
@@ -71,6 +72,7 @@ class LoginActivity : AppCompatActivity() {
                         Log.d("$logTest  iss->  $iss","lovepreet")
                         if (iss) {
                             val cookie = response.headers().get("Set-cookie").toString()
+                            Cookie.cookie = cookie
                             val intentToEvents =
                                 Intent(this@LoginActivity, EventDisplayerActivity::class.java)
                             startActivity(intentToEvents)
@@ -83,6 +85,7 @@ class LoginActivity : AppCompatActivity() {
 
                         }
                     } else {
+
                         binding.loginProgressBar.visibility = View.GONE
                         Toast.makeText(this@LoginActivity, "Wrong Credential!!", Toast.LENGTH_SHORT)
                             .show()
