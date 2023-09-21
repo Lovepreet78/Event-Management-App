@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
 
                 val userName = binding.usernameEditTextLogin.text.toString()
                 val password = binding.passwordEditTextLogin.text.toString()
-
+                Log.d("Love", "$userName $password")
                 loginUser(userName, password)
 
             }
@@ -54,38 +54,32 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginUser(userName: String, password: String) {
 
-        val user = AuthUser(userName, password)
+//        val user = AuthUser(userName, password)
         GlobalScope.launch {
             val apiService = RetrofitClient.create()
-            val call = apiService.loginUser(user)
+            val call = apiService.loginUser(userName, password)
             call.enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
 
+
                     if (response.isSuccessful) {
-//                    Toast.makeText(
-//                        this@LoginActivity,
-//                        "User Login Successfully",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-                        val iss = response.headers().get("Location").toString().contains("events")
-                        val logTest = response.headers().get("Location").toString()
-                        Log.d("$logTest  iss->  $iss","lovepreet")
-                        if (iss) {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "User Login Successfully",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             val cookie = response.headers().get("Set-cookie").toString()
-                            Cookie.cookie = cookie
+                            val userRole = response.headers().get("roles").toString()
+                            Log.d("Love", "$userRole  $cookie")
                             val intentToEvents =
                                 Intent(this@LoginActivity, EventDisplayerActivity::class.java)
                             startActivity(intentToEvents)
                             binding.loginProgressBar.visibility = View.GONE
                             finish()
-                        } else {
-                            binding.loginProgressBar.visibility = View.GONE
-                            Toast.makeText(this@LoginActivity, "Wrong Credential", Toast.LENGTH_SHORT)
-                                .show()
 
-                        }
-                    } else {
-
+                    }
+                    else {
+                        Log.d("Love",response.code().toString())
                         binding.loginProgressBar.visibility = View.GONE
                         Toast.makeText(this@LoginActivity, "Wrong Credential!!", Toast.LENGTH_SHORT)
                             .show()
