@@ -39,7 +39,6 @@ class UserPostedEventsRecyclerViewAdapter(private val events:List<EventDTO>, pri
             context.startActivity(intentToEventDetail)
 
 
-
         }
     }
 

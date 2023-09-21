@@ -8,13 +8,21 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:padding="@dimen/_16sdp"
         tools:context=".authentication.LoginActivity">
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:elevation="10dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/loginProgressBar"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="@dimen/_6sdp"
             app:cardCornerRadius="@dimen/_25sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_60sdp"
+
 
             >
             <LinearLayout
@@ -75,6 +83,9 @@
 
 
             </LinearLayout>
+
+
+
         </androidx.cardview.widget.CardView>
 
 

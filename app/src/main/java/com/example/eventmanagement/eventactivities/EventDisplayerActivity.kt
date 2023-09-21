@@ -24,11 +24,14 @@ class EventDisplayerActivity : AppCompatActivity() {
 
 
     private lateinit var binding: ActivityEventDisplayerBinding
+    var allEvents = mutableListOf<EventDTO>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventDisplayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getEvents()
+//        GlobalScope.launch {
+            getEvents()
+//        }
 
         binding.createNewEvents.setOnClickListener {
 
@@ -38,11 +41,11 @@ class EventDisplayerActivity : AppCompatActivity() {
 
     }
     @OptIn(DelicateCoroutinesApi::class)
-    private fun getEvents() {
+    private  fun getEvents() {
 
         GlobalScope.launch {
             var totalPages = 0;
-            var allEvents = mutableListOf<EventDTO>()
+
 
             val apiService = RetrofitClient.create()
             val call  = apiService.getEvents()
@@ -81,10 +84,9 @@ class EventDisplayerActivity : AppCompatActivity() {
 
 
             for(i in 1..totalPages){
-                val apiService = RetrofitClient.create()
-                val call  = apiService.getEventsPages(i)
+                val callForPages  = apiService.getEventsPages(i)
 
-                call.enqueue(object :retrofit2.Callback<EventModel>{
+                callForPages.enqueue(object :retrofit2.Callback<EventModel>{
                     override fun onResponse(call: Call<EventModel>, response: Response<EventModel>) {
                         if (response.isSuccessful){
                             val responseList = response.body()!!
@@ -114,5 +116,8 @@ class EventDisplayerActivity : AppCompatActivity() {
             binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
 
         }
+
+
+
     }
 }
