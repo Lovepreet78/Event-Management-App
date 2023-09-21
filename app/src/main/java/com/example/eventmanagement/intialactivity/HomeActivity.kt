@@ -1,4 +1,4 @@
-package com.example.eventmanagement
+package com.example.eventmanagement.intialactivity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,7 @@ import com.example.eventmanagement.databinding.ActivityHomeBinding
 import com.example.eventmanagement.eventactivities.EventDisplayerActivity
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var binding: ActivityHomeBinding
+    private lateinit var binding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)

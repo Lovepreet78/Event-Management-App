@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitClient {
     companion object {
 
-        var BASE_URL = "https://eventmanagementplatform.onrender.com/"
+        private var BASE_URL = "https://eventmanagementplatform.onrender.com/"
 
         fun create() : EventsApi {
 

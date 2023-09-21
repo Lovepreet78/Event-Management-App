@@ -1,7 +1,7 @@
 package com.example.eventmanagement.eventmodel
 
-data class Content(
-    val ID: Int,
+data class EventDTO(
+    val ID: Long,
     val content: String,
     val endDay: String,
     val endTime: String,

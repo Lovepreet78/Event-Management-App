@@ -4,4 +4,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="textColor">#FFFFFF</color>
     <color name="homeTextBg">#4083CC</color>
+    <color name="my_dark_primary">#BB86FC</color>
+    <color name="my_dark_secondary">#03DAC5</color>
+    <color name="my_dark_primaryDark">#121212</color>
+    <color name="my_dark_grey">#545454</color>
+
 </resources>
