@@ -1,6 +1,8 @@
 package com.example.eventmanagement.retrofit
 
+import com.example.eventmanagement.eventmodel.EventDTO
 import com.example.eventmanagement.eventmodel.EventModel
+import com.example.eventmanagement.eventmodel.PostEventModel
 import com.example.eventmanagement.users.AuthUser
 import retrofit2.Call
 import retrofit2.http.Body
@@ -8,6 +10,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface EventsApi {
@@ -24,6 +27,14 @@ interface EventsApi {
 
     @GET("events")
     fun getEventsPages(@Query("page") page:Int): Call<EventModel>
+
+//    @GET("admin/users")
+//    fun getAllUserForAdmin():Call<>
+
+//    @POST("/admin/events/edit/{id}")
+//    fun postEvent(@Path("id") eventId: Int, @Body eventData: EventDTO):Call<Void>
+    @POST("/user/events/post")
+    fun postEvent(@Body eventData: PostEventModel):Call<Void>
 
 
 }

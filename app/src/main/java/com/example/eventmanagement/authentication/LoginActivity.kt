@@ -30,6 +30,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        Log.d("Love"," cookie Before = "+Cookie.cookie)
+
         binding.loginButton.setOnClickListener {
             if (binding.usernameEditTextLogin.text.toString() == "" || binding.usernameEditTextLogin.text == null) {
                 Toast.makeText(this@LoginActivity, "Username Must not be Empty", Toast.LENGTH_SHORT)
@@ -74,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
 
                             Cookie.cookie = cookie
                             CurrentUserRole.currentUserRole = userRole
-
+                            Log.d("userr",userRole)
                             val intentToEvents =
                                 Intent(this@LoginActivity, EventDisplayerActivity::class.java)
                             startActivity(intentToEvents)

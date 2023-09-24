@@ -17,7 +17,7 @@ class RetrofitClient {
                 .client(InterceptorRetrofit.client)
                 .build()
             return retrofit.create(EventsApi::class.java)
-        //TODO()
+
         }
     }
 }
