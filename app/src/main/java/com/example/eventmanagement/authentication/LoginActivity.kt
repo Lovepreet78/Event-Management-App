@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.eventmanagement.constants.Cookie
+import com.example.eventmanagement.constants.CurrentUserRole
 
 import com.example.eventmanagement.databinding.ActivityLoginBinding
 import com.example.eventmanagement.eventactivities.EventDisplayerActivity
@@ -54,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginUser(userName: String, password: String) {
 
-//        val user = AuthUser(userName, password)
+
         GlobalScope.launch {
             val apiService = RetrofitClient.create()
             val call = apiService.loginUser(userName, password)
@@ -70,7 +71,10 @@ class LoginActivity : AppCompatActivity() {
                             ).show()
                             val cookie = response.headers().get("Set-cookie").toString()
                             val userRole = response.headers().get("roles").toString()
-                            Log.d("Love", "$userRole  $cookie")
+
+                            Cookie.cookie = cookie
+                            CurrentUserRole.currentUserRole = userRole
+
                             val intentToEvents =
                                 Intent(this@LoginActivity, EventDisplayerActivity::class.java)
                             startActivity(intentToEvents)

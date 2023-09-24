@@ -1,5 +1,5 @@
 package com.example.eventmanagement.constants
 
 object Cookie {
-    var cookie : String?=null
+    var cookie : String = ""
 }

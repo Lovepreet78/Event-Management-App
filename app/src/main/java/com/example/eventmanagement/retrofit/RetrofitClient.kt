@@ -1,5 +1,6 @@
 package com.example.eventmanagement.retrofit
 
+import com.example.eventmanagement.constants.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -13,9 +14,10 @@ class RetrofitClient {
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(BASE_URL)
+                .client(InterceptorRetrofit.client)
                 .build()
             return retrofit.create(EventsApi::class.java)
-
+        //TODO()
         }
     }
 }

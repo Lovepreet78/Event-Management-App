@@ -24,4 +24,6 @@ interface EventsApi {
 
     @GET("events")
     fun getEventsPages(@Query("page") page:Int): Call<EventModel>
+
+
 }

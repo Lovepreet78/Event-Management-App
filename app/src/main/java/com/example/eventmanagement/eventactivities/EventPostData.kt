@@ -40,6 +40,8 @@ class EventPostData : AppCompatActivity() {
 
     private fun submitNewEvent() {
         TODO("Not yet implemented")
+
+
     }
 
     private fun openDialogTime() {

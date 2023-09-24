@@ -25,26 +25,85 @@ class EventDisplayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEventDisplayerBinding
     var allEvents = mutableListOf<EventDTO>()
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+    var totalPages : Int = 0;
+
+    override  fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventDisplayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        GlobalScope.launch {
-            getEvents()
-//        }
-
         binding.createNewEvents.setOnClickListener {
 
             val intentToCreateNewEvent = Intent(this@EventDisplayerActivity,EventPostData::class.java)
             startActivity(intentToCreateNewEvent)
         }
+        GlobalScope.launch{ getEvents() }
+
+
+
+
+
+
 
     }
-    @OptIn(DelicateCoroutinesApi::class)
-    private  fun getEvents() {
 
-        GlobalScope.launch {
-            var totalPages = 0;
+    private suspend fun getNextPagesEvents() {
+        val apiService = RetrofitClient.create()
+         val job2 = GlobalScope.launch  {
+            for (i in 1..totalPages) {
+
+
+                val callForPages = apiService.getEventsPages(i)
+
+                callForPages.enqueue(object : retrofit2.Callback<EventModel> {
+                    override fun onResponse(
+                        call: Call<EventModel>,
+                        response: Response<EventModel>
+                    ) {
+                        if (response.isSuccessful) {
+                            val responseList = response.body()!!
+                            allEvents.addAll(responseList.content)
+
+
+                            Toast.makeText(
+                                this@EventDisplayerActivity,
+                                "A Done",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                this@EventDisplayerActivity,
+                                "A not Done",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<EventModel>, t: Throwable) {
+                        Toast.makeText(
+                            this@EventDisplayerActivity,
+                            "A Something went wrong!!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                })
+
+
+            }
+        }
+        job2.join()
+        val adapter = EventsRecyclerView(allEvents,this@EventDisplayerActivity)
+        binding.eventRecyclerView.adapter=adapter
+        adapter.notifyDataSetChanged()
+        binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private suspend fun getEvents() {
+
+        val job1 =GlobalScope.launch {
+
 
 
             val apiService = RetrofitClient.create()
@@ -83,39 +142,41 @@ class EventDisplayerActivity : AppCompatActivity() {
             })
 
 
-            for(i in 1..totalPages){
-                val callForPages  = apiService.getEventsPages(i)
+//            for(i in 1..totalPages){
+//                val callForPages  = apiService.getEventsPages(i)
+//
+//                callForPages.enqueue(object :retrofit2.Callback<EventModel>{
+//                    override fun onResponse(call: Call<EventModel>, response: Response<EventModel>) {
+//                        if (response.isSuccessful){
+//                            val responseList = response.body()!!
+//                            allEvents.addAll(responseList.content)
+//
+//
+//                            Toast.makeText(this@EventDisplayerActivity, "A Done", Toast.LENGTH_SHORT).show()
+//                        }
+//                        else{
+//                            Toast.makeText(this@EventDisplayerActivity, "A not Done", Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<EventModel>, t: Throwable) {
+//                        Toast.makeText(this@EventDisplayerActivity, "A Something went wrong!!", Toast.LENGTH_SHORT).show()
+//                    }
+//
+//                })
+//
+//
+//
+//            }
 
-                callForPages.enqueue(object :retrofit2.Callback<EventModel>{
-                    override fun onResponse(call: Call<EventModel>, response: Response<EventModel>) {
-                        if (response.isSuccessful){
-                            val responseList = response.body()!!
-                            allEvents.addAll(responseList.content)
-
-
-                            Toast.makeText(this@EventDisplayerActivity, "A Done", Toast.LENGTH_SHORT).show()
-                        }
-                        else{
-                            Toast.makeText(this@EventDisplayerActivity, "A not Done", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<EventModel>, t: Throwable) {
-                        Toast.makeText(this@EventDisplayerActivity, "A Something went wrong!!", Toast.LENGTH_SHORT).show()
-                    }
-
-                })
-
-
-
-            }
-
-            val adapter = EventsRecyclerView(allEvents,this@EventDisplayerActivity)
-            binding.eventRecyclerView.adapter=adapter
-            adapter.notifyDataSetChanged()
-            binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
+//            val adapter = EventsRecyclerView(allEvents,this@EventDisplayerActivity)
+//            binding.eventRecyclerView.adapter=adapter
+//            adapter.notifyDataSetChanged()
+//            binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
 
         }
+        job1.join()
+        getNextPagesEvents()
 
 
 
