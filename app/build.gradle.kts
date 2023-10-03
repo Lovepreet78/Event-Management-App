@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -36,6 +38,10 @@ android {
     buildFeatures{
         viewBinding = true
     }
+    packagingOptions{
+        exclude("META-INF/DEPENDENCIES")
+        exclude("mozilla/public-suffix-list.txt")
+    }
 }
 
 dependencies {
@@ -58,4 +64,13 @@ dependencies {
 
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation ("com.intuit.sdp:sdp-android:1.1.0")
+
+
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime
+    implementation("org.apache.httpcomponents:httpmime:4.3.1")
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    implementation("org.apache.httpcomponents:httpclient:4.3.1")
+    implementation("net.sourceforge.htmlunit:htmlunit-android:2.63.0")
+
 }
+

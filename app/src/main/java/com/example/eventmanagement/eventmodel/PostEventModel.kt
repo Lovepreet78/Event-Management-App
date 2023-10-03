@@ -15,4 +15,9 @@ data class PostEventModel(
     val endTime: LocalTime
 
 
-)
+){
+    override fun toString(): String {
+        return """{"ID":$ID, "title":"$title", "content":"$content", "location":"$location", "startDay":"$startDay", "endDay":"$endDay", "startTime":"$startTime", "endTime":"$endTime"}"""
+        
+    }
+}

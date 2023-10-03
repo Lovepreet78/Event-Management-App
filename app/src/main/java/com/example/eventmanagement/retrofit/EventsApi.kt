@@ -32,9 +32,9 @@ interface EventsApi {
 //    fun getAllUserForAdmin():Call<>
 
 //    @POST("/admin/events/edit/{id}")
-//    fun postEvent(@Path("id") eventId: Int, @Body eventData: EventDTO):Call<Void>
+
     @POST("/user/events/post")
-    fun postEvent(@Body eventData: PostEventModel):Call<Void>
+    fun postEvent(@Body eventData: PostEventModel):Call<String>
 
 
 }

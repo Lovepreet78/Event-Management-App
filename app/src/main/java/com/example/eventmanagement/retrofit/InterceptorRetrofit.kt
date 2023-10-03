@@ -7,9 +7,9 @@ object InterceptorRetrofit {
     val client: OkHttpClient = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val originalRequest = chain.request()
-            // Add your cookie to the request headers
             val requestWithCookie = originalRequest.newBuilder()
-                .addHeader("Cookie", Cookie.cookie) // Replace with your actual cookie key and value
+                .addHeader("Cookie", Cookie.cookie)
+                .addHeader("Content-Type","application/json")
                 .build()
             chain.proceed(requestWithCookie)
         }
