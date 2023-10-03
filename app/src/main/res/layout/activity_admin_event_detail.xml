@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".admin.AdminEventDetail">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- First CardView with ImageView -->
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="5dp"
+                app:cardUseCompatPadding="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:elevation="4dp">
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/event_detail_image" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Second CardView with TextViews -->
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="5dp"
+                app:cardUseCompatPadding="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Event Id "
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_20sdp"/>
+
+                    <TextView
+                        android:id="@+id/eventId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Id "
+
+                        android:textSize="@dimen/_15sdp"/>
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Event Name "
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_20sdp"/>
+
+                    <TextView
+                        android:id="@+id/eventDetailTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Title "
+
+                        android:textSize="@dimen/_15sdp"/>
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Description "
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_20sdp"/>
+                    <TextView
+                        android:id="@+id/eventDetailContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Content "
+
+                        android:textSize="@dimen/_15sdp"/>
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_20sdp"/>
+                    <TextView
+                        android:id="@+id/eventDetailStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start time "
+
+                        android:textSize="@dimen/_15sdp"/>
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="End Time "
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_20sdp"/>
+                    <TextView
+                        android:id="@+id/eventDetailEnd"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="End Time "
+
+                        android:textSize="@dimen/_15sdp"/>
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Location "
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_20sdp"/>
+                    <TextView
+                        android:id="@+id/eventDetailLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Location "
+
+                        android:textSize="@dimen/_15sdp"/>
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Event Posted At "
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_20sdp"/>
+                    <TextView
+                        android:id="@+id/eventPostedAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Location "
+
+                        android:textSize="@dimen/_15sdp"/>
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Event Posted By "
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_20sdp"/>
+                    <TextView
+                        android:id="@+id/eventPostedBy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Location "
+
+                        android:textSize="@dimen/_15sdp"/>
+
+
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,5 +1,7 @@
 package com.example.eventmanagement.retrofit
 
+import com.example.eventmanagement.admin.userEventModel.AdminUserDTO
+import com.example.eventmanagement.admin.userEventModel.AdminUserModel
 import com.example.eventmanagement.eventmodel.EventDTO
 import com.example.eventmanagement.eventmodel.EventModel
 import com.example.eventmanagement.eventmodel.PostEventModel
@@ -35,6 +37,9 @@ interface EventsApi {
 
     @POST("/user/events/post")
     fun postEvent(@Body eventData: PostEventModel):Call<String>
+
+    @GET("/admin/events")
+    fun getAllEventsForAdmin(@Query("page") page:Int): Call<AdminUserModel>
 
 
 }

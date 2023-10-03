@@ -15,6 +15,9 @@
         android:theme="@style/Theme.EventManagement"
         tools:targetApi="33">
         <activity
+            android:name=".admin.AdminEventDetail"
+            android:exported="false" />
+        <activity
             android:name=".admin.AdminShowAllEvents"
             android:exported="false" />
         <activity

@@ -7,6 +7,7 @@ import android.util.Log
 
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.eventmanagement.admin.AdminShowAllEvents
 import com.example.eventmanagement.constants.Cookie
 
 import com.example.eventmanagement.databinding.ActivityEventDisplayerBinding
@@ -37,7 +38,8 @@ class EventDisplayerActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.createNewEvents.setOnClickListener {
 
-            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity,EventPostData::class.java)
+//            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity,EventPostData::class.java)
+            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity,AdminShowAllEvents::class.java)
             startActivity(intentToCreateNewEvent)
         }
 
