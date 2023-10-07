@@ -32,6 +32,33 @@
         android:layout_alignParentBottom="true"
 
         android:layout_marginRight="@dimen/_30sdp"
-        android:layout_marginBottom="@dimen/_30sdp"
-        android:src="@drawable/create_new_event_add_vector" />
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:src="@drawable/create_new_event_add_vector"
+
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/managementPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="Management"
+        android:layout_marginRight="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_70sdp"
+        android:visibility="gone"
+        android:layout_toLeftOf="@id/AdminPanel"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:text="Admin"
+        android:visibility="gone"
+        android:id="@+id/AdminPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_120sdp"
+        />
 </RelativeLayout>

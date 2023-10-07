@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".managementrole.ManagementEditEvent"
+    android:orientation="vertical"
+    android:padding="15dp"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event Title"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:id="@+id/editTextTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Event Title"/>
+
+            <!-- Event Description -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event Description"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:id="@+id/editTextDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Event Description"
+                android:inputType="textMultiLine"/>
+
+            <!-- Event Location -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event Location"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:id="@+id/editTextLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Event Location"/>
+
+            <!-- Event Date and Time -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event Date and Time"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/startTimeShower"
+                android:textSize="@dimen/_15sdp"
+                android:layout_gravity="center_horizontal"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Start Time"
+                android:id="@+id/startTimeSelector"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/startDateShower"
+                android:textSize="@dimen/_15sdp"
+                android:layout_gravity="center_horizontal"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Start Date"
+                android:id="@+id/startDateSelector"
+                android:layout_gravity="center_horizontal"
+
+                />
+
+
+
+
+
+
+            <TextView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/endTimeShower"
+                android:textSize="@dimen/_15sdp"
+                android:layout_gravity="center_horizontal"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select End Time"
+                android:id="@+id/endTimeSelector"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/endDateShower"
+                android:textSize="@dimen/_15sdp"
+                android:layout_gravity="center_horizontal"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select End Date"
+                android:id="@+id/endDateSelector"
+                android:layout_gravity="center_horizontal"
+
+                />
+
+
+
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Event"
+                android:id="@+id/SubmitNewEvent"
+
+                android:layout_gravity="center_horizontal"
+
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

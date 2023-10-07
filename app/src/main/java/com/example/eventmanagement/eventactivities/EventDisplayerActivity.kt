@@ -3,6 +3,7 @@ package com.example.eventmanagement.eventactivities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.example.eventmanagement.eventmodel.EventDTO
 
 import com.example.eventmanagement.eventmodel.EventModel
 import com.example.eventmanagement.eventactivities.recyclerview.EventsRecyclerView
+import com.example.eventmanagement.managementrole.ManagementShowEvents
 import com.example.eventmanagement.retrofit.RetrofitClient
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -35,11 +37,22 @@ class EventDisplayerActivity : AppCompatActivity() {
         binding = ActivityEventDisplayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.createNewEvents.setOnClickListener {
-
-//            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity,EventPostData::class.java)
-//            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity, AdminShowAllEvents::class.java)
-            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity, AdminShowAllUsers::class.java)
-            startActivity(intentToCreateNewEvent)
+            if(binding.managementPanel.visibility==View.GONE && binding.AdminPanel.visibility==View.GONE){
+                binding.managementPanel.visibility=View.VISIBLE
+                binding.AdminPanel.visibility=View.VISIBLE
+            }
+            else{
+                binding.managementPanel.visibility=View.GONE
+                binding.AdminPanel.visibility=View.GONE
+            }
+        }
+        binding.managementPanel.setOnClickListener {
+            val intentToManagement = Intent(this@EventDisplayerActivity,ManagementShowEvents::class.java)
+            startActivity(intentToManagement)
+        }
+        binding.AdminPanel.setOnClickListener {
+            val intentToAdmin = Intent(this@EventDisplayerActivity,AdminShowAllEvents::class.java)
+            startActivity(intentToAdmin)
         }
 
         GlobalScope.launch { getEvents() }

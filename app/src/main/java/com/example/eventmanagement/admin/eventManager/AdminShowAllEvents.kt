@@ -31,7 +31,7 @@ class AdminShowAllEvents : AppCompatActivity() {
 
 
 
-            Toast.makeText(this@AdminShowAllEvents, "in runblocking", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@AdminShowAllEvents, "in runblocking", Toast.LENGTH_SHORT).show()
 
             callForPageZero()
             Log.d("adminqq","tot = $totalPages")

@@ -63,7 +63,7 @@ interface EventsApi {
     fun getManagementEvents(@Query("page") page:Int) : Call<ManagementEventsModel>
 
     @POST("user/events/edit/{ID}")
-    fun postManagementEvent(@Path("ID") eventId:Long, @Body event:EventPostDTO):Call<Void>
+    fun editManagementEvent(@Path("ID") eventId:Long, @Body event:EventPostDTO):Call<Void>
 
     @DELETE("user/events/delete/{ID}")
     fun deleteManagementEvent(@Path("ID") id:Long):Call<Void>

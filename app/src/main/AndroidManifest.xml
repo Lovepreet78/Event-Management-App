@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
+            android:name=".managementrole.ManagementEditEvent"
+            android:exported="false" />
+        <activity
             android:name=".managementrole.ManagementEventDetail"
             android:exported="false" />
         <activity
