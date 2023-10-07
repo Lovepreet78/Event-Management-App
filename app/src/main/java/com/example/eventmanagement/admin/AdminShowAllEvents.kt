@@ -2,6 +2,7 @@ package com.example.eventmanagement.admin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eventmanagement.R
@@ -28,24 +29,29 @@ class AdminShowAllEvents : AppCompatActivity() {
         binding = ActivityAdminShowAllEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        runBlocking {
+
+
+            Toast.makeText(this@AdminShowAllEvents, "in runblocking", Toast.LENGTH_SHORT).show()
+
             callForPageZero()
-            callForNextPages()
-            setDataToAdapter()
-        }
+            Log.d("adminqq","tot = $totalPages")
 
 
     }
 
     private fun setDataToAdapter() {
+
+
         val adapter = AdminEventsViewAdapter(allEvents,this@AdminShowAllEvents)
-        binding.eventsAdminRecyclerView.adapter=adapter
-        adapter.notifyDataSetChanged()
         binding.eventsAdminRecyclerView.layoutManager = LinearLayoutManager(this@AdminShowAllEvents)
+        binding.eventsAdminRecyclerView.adapter=adapter
+
+        adapter.notifyDataSetChanged()
+
     }
 
     private fun callForNextPages() {
-        GlobalScope.launch {
+
             for (i in 1..totalPages){
                 val apiService = RetrofitClient.create()
                 val call  = apiService.getAllEventsForAdmin(i)
@@ -59,7 +65,8 @@ class AdminShowAllEvents : AppCompatActivity() {
                             val eventList = responseList.content
                             allEvents.addAll(eventList)
 
-//                            totalPages = responseList.totalPages
+
+                            setDataToAdapter()
                         }
                         else{
                             Toast.makeText(this@AdminShowAllEvents, "Admin call for event failed", Toast.LENGTH_SHORT).show()
@@ -72,14 +79,14 @@ class AdminShowAllEvents : AppCompatActivity() {
 
                 })
             }
-        }
+
 
     }
 
-    private fun callForPageZero() {
-        GlobalScope.launch {
+    private  fun callForPageZero() {
+
             val apiService = RetrofitClient.create()
-            val call  = apiService.getAllEventsForAdmin(0)
+            val call  = apiService.getAllEventsForAdmin(1)
             call.enqueue(object : retrofit2.Callback<AdminUserModel>{
                 override fun onResponse(
                     call: Call<AdminUserModel>,
@@ -88,9 +95,16 @@ class AdminShowAllEvents : AppCompatActivity() {
                     if(response.isSuccessful){
                         val responseList = response.body()!!
                         val eventList = responseList.content
+
+
                         allEvents.addAll(eventList)
 
+
+
                         totalPages = responseList.totalPages
+                        Log.d("adminEE2",allEvents.toString()+" totalpages = $totalPages")
+                        setDataToAdapter()
+                        callForNextPages()
                     }
                     else{
                         Toast.makeText(this@AdminShowAllEvents, "Admin call for event failed", Toast.LENGTH_SHORT).show()
@@ -103,7 +117,8 @@ class AdminShowAllEvents : AppCompatActivity() {
 
             })
         }
-    }
+
+
 
 
 

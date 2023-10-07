@@ -71,6 +71,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
     implementation("org.apache.httpcomponents:httpclient:4.3.1")
     implementation("net.sourceforge.htmlunit:htmlunit-android:2.63.0")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.15.2")
+    implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
+
+
 
 }
 

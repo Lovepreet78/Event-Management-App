@@ -96,6 +96,7 @@ class LoginActivity : AppCompatActivity() {
                     binding.loginProgressBar.visibility = View.GONE
                     Toast.makeText(this@LoginActivity, "Something Went Wrong", Toast.LENGTH_SHORT)
                         .show()
+                    throw t
                 }
             })
         }

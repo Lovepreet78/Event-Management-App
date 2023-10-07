@@ -79,11 +79,11 @@ class EventDisplayerActivity : AppCompatActivity() {
                             binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
 
 
-                            Toast.makeText(
-                                this@EventDisplayerActivity,
-                                "A Done",
-                                Toast.LENGTH_SHORT
-                            ).show()
+//                            Toast.makeText(
+//                                this@EventDisplayerActivity,
+//                                "A Done",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
                         } else {
                             Toast.makeText(
                                 this@EventDisplayerActivity,
@@ -134,7 +134,7 @@ class EventDisplayerActivity : AppCompatActivity() {
                         adapter.notifyDataSetChanged()
                         binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
 
-                        Toast.makeText(this@EventDisplayerActivity, "P Done", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this@EventDisplayerActivity, "P Done", Toast.LENGTH_SHORT).show()
                     }
                     else{
                         Toast.makeText(this@EventDisplayerActivity, "P not Done", Toast.LENGTH_SHORT).show()

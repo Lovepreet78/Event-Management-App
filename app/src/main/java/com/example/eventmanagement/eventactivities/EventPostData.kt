@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.eventmanagement.databinding.ActivityEventPostDataBinding
+import com.example.eventmanagement.eventmodel.EventPostDTO
+import com.example.eventmanagement.eventmodel.LocalTimeConverter
 import com.example.eventmanagement.eventmodel.PostEventModel
 import com.example.eventmanagement.retrofit.RetrofitClient
 import com.example.eventmanagement.retrofit.testing.TestClient
@@ -20,41 +22,51 @@ import java.io.InputStream
 import java.nio.charset.Charset
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class EventPostData : AppCompatActivity() {
     lateinit var binding: ActivityEventPostDataBinding
+    var toSendStartTime:LocalTime = LocalTime.now()
+    var toSendStartDate:LocalDate= LocalDate.now()
+    var toSendEndTime:LocalTime = LocalTime.now()
+    var toSendEndDate:LocalDate = LocalDate.now()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventPostDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.dateSelector.setOnClickListener {
-            openDialogDate()
+        binding.startDateSelector.setOnClickListener {
+            openStartDialogDate()
         }
-        binding.timeSelector.setOnClickListener {
-            openDialogTime()
+        binding.startTimeSelector.setOnClickListener {
+            openStartDialogTime()
+        }
+        binding.endDateSelector.setOnClickListener {
+            openEndDialogDate()
+        }
+        binding.endTimeSelector.setOnClickListener {
+            openEndDialogTime()
         }
         binding.SubmitNewEvent.setOnClickListener {
-//            val eventTitle = binding.editTextTitle.text.toString()
-//            val eventDescription = binding.editTextDescription.text.toString()
-//            val eventLocation = binding.editTextLocation.text.toString()
-//            val time = binding.timeShower.text.toString()
-//            val date = binding.timeShower.text.toString()
-//            val eventFormLink :String? = null
-//            val localTime = LocalTime.now()
-//            val event  = PostEventModel(21,eventTitle,eventDescription,eventLocation,"2023-09-24","2023-09-28",
-//                localTime, LocalTime.now().plusHours(2)
-//                )
-//            val gson = Gson()
-//            val json = gson.toJson(event)
+            val eventTitle = binding.editTextTitle.text.toString()
+            val eventDescription = binding.editTextDescription.text.toString()
+            val eventLocation = binding.editTextLocation.text.toString()
 
-//            Log.d("json", "$json   Date->     $localTime")
-//            submitNewEvent(event)
-//            val proxyService = ProxyService()
-//            proxyService.doPost()
+            val startDate = binding.startDateShower.text.toString()
 
-//                testSubmit()
-//            ProxySeeviceKot.doPost()
+            val endDate = binding.endDateShower.text.toString()
+
+
+
+
+            val ttt = LocalTime.now()
+            val ttt2 = LocalTime.now().plusHours(2)
+
+            val e1 = EventPostDTO(100,eventTitle,eventDescription,eventLocation,toSendStartDate.toString(),toSendEndDate.toString(),toSendStartTime.toString(),toSendEndTime.toString());
+
+
+            submitNewEvent(e1)
         }
 
 
@@ -63,53 +75,15 @@ class EventPostData : AppCompatActivity() {
     }
 
 
-    private fun testSubmit(){
-        val testApi = TestClient.create()
-
-        // Create an instance of PostEventModel with your data
-        val eventModel = PostEventModel(
-            ID = 1, // Replace with your ID
-            title = "Your Title",
-            content = "Your Content",
-            location = "Your Location",
-            startDay = "Start Day",
-            endDay = "End Day",
-            startTime = LocalTime.now(), // Replace with your startTime
-            endTime = LocalTime.now().plusHours(2) // Replace with your endTime
-        )
-
-        // Make the POST request
-        val call = testApi.testPostEvent(eventModel)
-
-        // Execute the call asynchronously
-        call.enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                if (response.isSuccessful) {
-                    // Handle successful response here
-                    val responseBody = response.body()
-                    Log.d("TestPost","Done..............")
-                } else {
-                    Log.d("TestPost","Fir se Error..............${
-                        response.errorBody()?.byteStream()
-                            ?.let { convertStreamToString(it) }
-                    }\n"                             )
-                }
-            }
-
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                Log.d("TestPost","Failure...........")
-            }
-        })
-    }
 
 
 
-    private fun submitNewEvent(event: PostEventModel) {
+    private fun submitNewEvent(event: EventPostDTO) {
         GlobalScope.launch {
             val apiService = RetrofitClient.create()
             val call = apiService.postEvent(event)
-            call.enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+            call.enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
 
 
                     if (response.isSuccessful) {
@@ -118,7 +92,7 @@ class EventPostData : AppCompatActivity() {
                             "Event post Successfully",
                             Toast.LENGTH_SHORT
                         ).show()
-                        Log.d("post","Doneeeeeeeeeeeeeeee")
+                        Log.d("posttest",event.toString())
 
 
                     }
@@ -128,15 +102,16 @@ class EventPostData : AppCompatActivity() {
 
                         Toast.makeText(this@EventPostData, "Not Posting $response", Toast.LENGTH_SHORT)
                             .show()
-                        Log.d("post","NotDoneeeeeeeeeeeeeeee ${response.errorBody()?.byteStream()
+                        Log.d("posttest","NotDoneeeeeeeeeeeeeeee ${response.errorBody()?.byteStream()
                             ?.let { convertStreamToString(it) }}\n  $event")
                     }
                 }
 
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    Log.d("posttt","FailDoneeeeeeeeeeeeeeee")
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.d("posttt","FailDoneeeeeeeeeeeeeeee $call")
                     Toast.makeText(this@EventPostData, "Something Went Wrong Post", Toast.LENGTH_SHORT)
                         .show()
+                    throw t
                 }
             })
         }
@@ -144,20 +119,52 @@ class EventPostData : AppCompatActivity() {
 
     }
 
-    private fun openDialogTime() {
+    private fun openStartDialogTime() {
         val dialogTime = TimePickerDialog(this,
 
-            { _, p1, p2 -> binding.timeShower.text = "$p1 : $p2" },12,0,true  )
+            { _, p1, p2 -> run{ binding.startTimeShower.text = "$p1:$p2"
+                val startLocalTime= LocalTimeConverter.convertStringTOLocalTIme(p1,p2,0,0,0)
+                Log.d("localtest1",startLocalTime.toString())
+                toSendStartTime = startLocalTime
+
+
+            } },12,0,true  )
 
         dialogTime.show()
     }
 
-    private fun openDialogDate() {
+    private fun openStartDialogDate() {
         val currentDate = LocalDate.now()
 
 
         val dialogDate = DatePickerDialog(this,
-            { _, p1, p2, p3 -> binding.dateShower.text = "$p1/$p2/$p3" }
+            { _, p1, p2, p3 -> run{ binding.startDateShower.text = "$p1-$p2-$p3" }
+                toSendStartDate = LocalTimeConverter.intToLocalDate(p1,p2,p3)
+
+            }
+            ,currentDate.year,currentDate.monthValue,currentDate.dayOfMonth)
+        dialogDate.show()
+    }
+    private fun openEndDialogTime() {
+        val dialogTime = TimePickerDialog(this,
+
+            { _, p1, p2 -> run{ binding.endTimeShower.text = "$p1:$p2"
+                val startLocalTime= LocalTimeConverter.convertStringTOLocalTIme(p1,p2,0,0,0)
+                Log.d("localtest1",startLocalTime.toString())
+                toSendEndTime = startLocalTime
+            } },12,0,true  )
+
+        dialogTime.show()
+    }
+
+    private fun openEndDialogDate() {
+        val currentDate = LocalDate.now()
+
+
+        val dialogDate = DatePickerDialog(this,
+            { _, p1, p2, p3 -> run{ binding.endDateShower.text = "$p1-$p2-$p3"
+                toSendEndDate = LocalTimeConverter.intToLocalDate(p1,p2,p3)
+            }}
             ,currentDate.year,currentDate.monthValue,currentDate.dayOfMonth)
         dialogDate.show()
     }

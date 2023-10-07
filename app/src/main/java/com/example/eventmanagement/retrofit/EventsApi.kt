@@ -4,10 +4,12 @@ import com.example.eventmanagement.admin.userEventModel.AdminUserDTO
 import com.example.eventmanagement.admin.userEventModel.AdminUserModel
 import com.example.eventmanagement.eventmodel.EventDTO
 import com.example.eventmanagement.eventmodel.EventModel
+import com.example.eventmanagement.eventmodel.EventPostDTO
 import com.example.eventmanagement.eventmodel.PostEventModel
 import com.example.eventmanagement.users.AuthUser
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -36,7 +38,12 @@ interface EventsApi {
 //    @POST("/admin/events/edit/{id}")
 
     @POST("/user/events/post")
-    fun postEvent(@Body eventData: PostEventModel):Call<String>
+    fun postEvent(@Body eventData: EventPostDTO):Call<Void>
+    @DELETE("/admin/events/delete/{id}")
+    fun deleteEventByAdmin(@Path("id") eventId: Long): Call<Void>
+
+    @POST("/admin/events/edit/{id}")
+    fun editEventByAdmin(@Path("id") eventId:Long, @Body event:EventPostDTO):Call<Void>
 
     @GET("/admin/events")
     fun getAllEventsForAdmin(@Query("page") page:Int): Call<AdminUserModel>
