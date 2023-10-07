@@ -16,16 +16,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
-            android:name=".admin.AdminEditEvent"
+            android:name=".admin.userManager.AdminUserDetail"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminEventDetail"
+            android:name=".admin.eventManager.AdminEditEvent"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminShowAllEvents"
+            android:name=".admin.eventManager.AdminEventDetail"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminShowAllUsers"
+            android:name=".admin.eventManager.AdminShowAllEvents"
+            android:exported="false" />
+        <activity
+            android:name=".admin.userManager.AdminShowAllUsers"
             android:exported="false" />
         <activity
             android:name=".users.userpostedevents.UserPostedEvents"

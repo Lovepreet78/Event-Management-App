@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventmanagement.R
-import com.example.eventmanagement.admin.AdminEventDetail
+import com.example.eventmanagement.admin.eventManager.AdminEventDetail
 import com.example.eventmanagement.admin.userEventModel.AdminUserDTO
-import com.example.eventmanagement.eventactivities.recyclerview.EventsRecyclerView
-import com.example.eventmanagement.eventmodel.EventDTO
 
 class AdminEventsViewAdapter (private val events:List<AdminUserDTO>, private val context: Context): RecyclerView.Adapter<AdminEventsViewAdapter.ViewHolder>()  {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

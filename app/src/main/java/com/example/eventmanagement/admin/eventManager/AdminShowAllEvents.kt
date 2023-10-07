@@ -1,4 +1,4 @@
-package com.example.eventmanagement.admin
+package com.example.eventmanagement.admin.eventManager
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

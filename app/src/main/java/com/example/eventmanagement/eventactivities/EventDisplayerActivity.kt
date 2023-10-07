@@ -3,12 +3,10 @@ package com.example.eventmanagement.eventactivities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.eventmanagement.admin.AdminShowAllEvents
-import com.example.eventmanagement.constants.Cookie
+import com.example.eventmanagement.admin.eventManager.AdminShowAllEvents
 
 import com.example.eventmanagement.databinding.ActivityEventDisplayerBinding
 import com.example.eventmanagement.eventmodel.EventDTO
@@ -22,7 +20,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
-import java.awt.font.NumericShaper.Range
 
 class EventDisplayerActivity : AppCompatActivity() {
 
@@ -39,7 +36,7 @@ class EventDisplayerActivity : AppCompatActivity() {
         binding.createNewEvents.setOnClickListener {
 
 //            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity,EventPostData::class.java)
-            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity,AdminShowAllEvents::class.java)
+            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity, AdminShowAllEvents::class.java)
             startActivity(intentToCreateNewEvent)
         }
 

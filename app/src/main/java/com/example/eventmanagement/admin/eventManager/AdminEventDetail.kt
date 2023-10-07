@@ -1,4 +1,4 @@
-package com.example.eventmanagement.admin
+package com.example.eventmanagement.admin.eventManager
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -62,7 +62,7 @@ class AdminEventDetail : AppCompatActivity() {
         startTime: String?,
         endTime: String?
     ) {
-        val intentToEditEvent  = Intent(this@AdminEventDetail,AdminEditEvent::class.java)
+        val intentToEditEvent  = Intent(this@AdminEventDetail, AdminEditEvent::class.java)
         intentToEditEvent.putExtra("eventId",passId)
         intentToEditEvent.putExtra("title",title)
         intentToEditEvent.putExtra("content",content)

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".admin.userManager.AdminUserDetail">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_15sdp"
+            android:text="User Id"/>
+        <TextView
+            android:id="@+id/userId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_12sdp"
+            android:text="id"/>
+
+
+        <TextView
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_15sdp"
+            android:text="User name "/>
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_12sdp"
+            android:text="userName"/>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_15sdp"
+            android:text="User Id"/>
+        <TextView
+            android:id="@+id/userRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_12sdp"
+            android:text="role"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="@dimen/_22sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Role"
+            android:id="@+id/changeRole"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:visibility="gone"
+            android:id="@+id/changeRolesOption">
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To Admin"
+                android:id="@+id/changeToAdmin"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To Management"
+                android:id="@+id/changeToManagement"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To Normal User"
+                android:id="@+id/changeToUser"
+                />
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
