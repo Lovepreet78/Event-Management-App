@@ -11,7 +11,7 @@ import com.example.eventmanagement.eventmodel.EventPostDTO
 import com.example.eventmanagement.eventmodel.LocalTimeConverter
 import com.example.eventmanagement.eventmodel.PostEventModel
 import com.example.eventmanagement.retrofit.RetrofitClient
-import com.example.eventmanagement.retrofit.testing.TestClient
+
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call

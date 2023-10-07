@@ -86,7 +86,7 @@ class AdminShowAllEvents : AppCompatActivity() {
     private  fun callForPageZero() {
 
             val apiService = RetrofitClient.create()
-            val call  = apiService.getAllEventsForAdmin(1)
+            val call  = apiService.getAllEventsForAdmin(0)
             call.enqueue(object : retrofit2.Callback<AdminUserModel>{
                 override fun onResponse(
                     call: Call<AdminUserModel>,

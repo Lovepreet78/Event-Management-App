@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eventmanagement.admin.eventManager.AdminShowAllEvents
+import com.example.eventmanagement.admin.userManager.AdminShowAllUsers
 
 import com.example.eventmanagement.databinding.ActivityEventDisplayerBinding
 import com.example.eventmanagement.eventmodel.EventDTO
@@ -36,7 +37,8 @@ class EventDisplayerActivity : AppCompatActivity() {
         binding.createNewEvents.setOnClickListener {
 
 //            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity,EventPostData::class.java)
-            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity, AdminShowAllEvents::class.java)
+//            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity, AdminShowAllEvents::class.java)
+            val intentToCreateNewEvent = Intent(this@EventDisplayerActivity, AdminShowAllUsers::class.java)
             startActivity(intentToCreateNewEvent)
         }
 

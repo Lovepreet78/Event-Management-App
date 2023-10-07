@@ -16,6 +16,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
+            android:name=".managementrole.ManagementEventDetail"
+            android:exported="false" />
+        <activity
+            android:name=".managementrole.ManagementShowEvents"
+            android:exported="false" />
+        <activity
             android:name=".admin.userManager.AdminUserDetail"
             android:exported="false" />
         <activity

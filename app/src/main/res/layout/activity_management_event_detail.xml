@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".admin.eventManager.AdminEventDetail">
+    tools:context=".managementrole.ManagementEventDetail">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
+
 
             <!-- First CardView with ImageView -->
             <androidx.cardview.widget.CardView
@@ -28,7 +29,6 @@
 
                 <ImageView
                     android:id="@+id/imageView1"
-
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_150sdp"
                     android:scaleType="centerCrop"
@@ -46,39 +46,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:id="@+id/adminEditEvent"
+                    android:id="@+id/ManagementEditEvent"
                     android:text="Edit"/>
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:id="@+id/adminDeleteEvent"
+                    android:id="@+id/ManagementDeleteEvent"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:text="Delete"/>
-
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Event Id "
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_20sdp"/>
-
-                    <TextView
-                        android:id="@+id/eventId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Id "
-
-                        android:textSize="@dimen/_15sdp"/>
 
                     <TextView
                         android:id="@+id/textView1"
@@ -156,35 +138,6 @@
                         android:text="Location "
 
                         android:textSize="@dimen/_15sdp"/>
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Event Posted At "
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_20sdp"/>
-                    <TextView
-                        android:id="@+id/eventPostedAt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Location "
-
-                        android:textSize="@dimen/_15sdp"/>
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Event Posted By "
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_20sdp"/>
-                    <TextView
-                        android:id="@+id/eventPostedBy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Location "
-
-                        android:textSize="@dimen/_15sdp"/>
-
 
 
 
@@ -193,5 +146,6 @@
 
         </LinearLayout>
     </ScrollView>
+
 
 </LinearLayout>

@@ -2,10 +2,12 @@ package com.example.eventmanagement.retrofit
 
 import com.example.eventmanagement.admin.userEventModel.AdminUserDTO
 import com.example.eventmanagement.admin.userEventModel.AdminUserModel
+import com.example.eventmanagement.admin.userManager.AdminUsersModel.AdminAllUsersModel
 import com.example.eventmanagement.eventmodel.EventDTO
 import com.example.eventmanagement.eventmodel.EventModel
 import com.example.eventmanagement.eventmodel.EventPostDTO
 import com.example.eventmanagement.eventmodel.PostEventModel
+import com.example.eventmanagement.managementrole.managementeventmodel.ManagementEventsModel
 import com.example.eventmanagement.users.AuthUser
 import retrofit2.Call
 import retrofit2.http.Body
@@ -32,13 +34,13 @@ interface EventsApi {
     @GET("events")
     fun getEventsPages(@Query("page") page:Int): Call<EventModel>
 
-//    @GET("admin/users")
-//    fun getAllUserForAdmin():Call<>
 
-//    @POST("/admin/events/edit/{id}")
 
     @POST("/user/events/post")
     fun postEvent(@Body eventData: EventPostDTO):Call<Void>
+
+
+    //admin
     @DELETE("/admin/events/delete/{id}")
     fun deleteEventByAdmin(@Path("id") eventId: Long): Call<Void>
 
@@ -47,6 +49,27 @@ interface EventsApi {
 
     @GET("/admin/events")
     fun getAllEventsForAdmin(@Query("page") page:Int): Call<AdminUserModel>
+
+    fun updateUserRole(@Path("id") userId:Long,@Body role:String):Call<Void>
+
+    @GET("admin/users")
+    fun getUsersForAdmin(@Query("page") page:Int): Call<AdminAllUsersModel>
+
+
+
+    //management
+
+    @GET("user/events")
+    fun getManagementEvents(@Query("page") page:Int) : Call<ManagementEventsModel>
+
+    @POST("user/events/edit/{ID}")
+    fun postManagementEvent(@Path("ID") eventId:Long, @Body event:EventPostDTO):Call<Void>
+
+    @DELETE("user/events/delete/{ID}")
+    fun deleteManagementEvent(@Path("ID") id:Long):Call<Void>
+
+
+
 
 
 }
