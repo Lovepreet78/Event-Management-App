@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eventmanagement.R
 import com.example.eventmanagement.admin.AdminEventsRecyclerview.AdminEventsViewAdapter
 import com.example.eventmanagement.admin.userEventModel.AdminUserModel
+import com.example.eventmanagement.admin.userManager.AdminUsersModel.AdminAllUsersModel
 import com.example.eventmanagement.admin.userManager.AdminUsersModel.Content
 import com.example.eventmanagement.admin.userManager.adminuserrecylerviewadapter.ShowUsersAdapter
 import com.example.eventmanagement.databinding.ActivityAdminShowAllUsersBinding
@@ -15,6 +16,7 @@ import com.example.eventmanagement.retrofit.RetrofitClient
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class AdminShowAllUsers : AppCompatActivity() {
@@ -34,11 +36,14 @@ class AdminShowAllUsers : AppCompatActivity() {
 
 
     private  fun callForPageZero() {
-        GlobalScope.launch {
+
             val apiService = RetrofitClient.create()
             val call  = apiService.getUsersForAdmin(0)
-            try {
-                val response = call.execute()
+        call.enqueue(object : Callback<AdminAllUsersModel>{
+            override fun onResponse(
+                call: Call<AdminAllUsersModel>,
+                response: Response<AdminAllUsersModel>
+            ) {
                 if(response.isSuccessful){
                     val users = response.body()
                     if (users != null) {
@@ -54,36 +59,45 @@ class AdminShowAllUsers : AppCompatActivity() {
                     Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users", Toast.LENGTH_SHORT).show()
                 }
             }
-            catch (e:Exception){
+
+            override fun onFailure(call: Call<AdminAllUsersModel>, t: Throwable) {
                 Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users!!", Toast.LENGTH_SHORT).show()
             }
-        }
+
+        })
+
 
     }
     private fun callForNextPages() {
         for(i in 1..totalPages){
             val apiService = RetrofitClient.create()
             val call  = apiService.getUsersForAdmin(i)
-            try {
-                val response = call.execute()
-                if(response.isSuccessful){
-                    val users = response.body()
-//                    if (users != null) {
-//                        totalPages = users.totalPages
-//                    }
-                    val toBeAddedToList  = users?.content
-                    if (toBeAddedToList != null) {
-                        usersList.addAll(toBeAddedToList)
-                    }
 
+            call.enqueue(object : Callback<AdminAllUsersModel>{
+                override fun onResponse(
+                    call: Call<AdminAllUsersModel>,
+                    response: Response<AdminAllUsersModel>
+                ) {
+                    if(response.isSuccessful){
+                        val users = response.body()
+
+                        val toBeAddedToList  = users?.content
+                        if (toBeAddedToList != null) {
+                            usersList.addAll(toBeAddedToList)
+                        }
+
+                    }
+                    else{
+                        Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users", Toast.LENGTH_SHORT).show()
+                    }
                 }
-                else{
-                    Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users", Toast.LENGTH_SHORT).show()
+
+                override fun onFailure(call: Call<AdminAllUsersModel>, t: Throwable) {
+                    Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users!!", Toast.LENGTH_SHORT).show()
                 }
-            }
-            catch (e:Exception){
-                Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users!!", Toast.LENGTH_SHORT).show()
-            }
+
+            })
+
         }
         setDataToAdapter()
 

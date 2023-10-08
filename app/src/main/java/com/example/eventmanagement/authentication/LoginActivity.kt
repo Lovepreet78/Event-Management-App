@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.reflect.typeOf
 
 
 class LoginActivity : AppCompatActivity() {
@@ -75,8 +76,9 @@ class LoginActivity : AppCompatActivity() {
                             val userRole = response.headers().get("roles").toString()
 
                             Cookie.cookie = cookie
+                        Log.d("currfuck", CurrentUserRole.currentUserRole!!.toString())
                             CurrentUserRole.currentUserRole = userRole
-                            Log.d("userr",userRole)
+
                             val intentToEvents =
                                 Intent(this@LoginActivity, EventDisplayerActivity::class.java)
                             startActivity(intentToEvents)

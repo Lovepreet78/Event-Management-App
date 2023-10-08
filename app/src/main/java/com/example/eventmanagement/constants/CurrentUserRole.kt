@@ -1,5 +1,5 @@
 package com.example.eventmanagement.constants
 
 object CurrentUserRole {
-    var currentUserRole : String? = null
+    var currentUserRole : String ="USER"
 }

@@ -1,5 +1,6 @@
 package com.example.eventmanagement.admin.eventManager
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import com.example.eventmanagement.R
 import com.example.eventmanagement.admin.AdminEventsRecyclerview.AdminEventsViewAdapter
 import com.example.eventmanagement.admin.userEventModel.AdminUserDTO
 import com.example.eventmanagement.admin.userEventModel.AdminUserModel
+import com.example.eventmanagement.admin.userManager.AdminShowAllUsers
 import com.example.eventmanagement.databinding.ActivityAdminShowAllEventsBinding
 import com.example.eventmanagement.eventactivities.recyclerview.EventsRecyclerView
 import com.example.eventmanagement.eventmodel.EventModel
@@ -28,6 +30,11 @@ class AdminShowAllEvents : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminShowAllEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.seeAllUsers.setOnClickListener {
+            val intentToUsers = Intent(this@AdminShowAllEvents,AdminShowAllUsers::class.java)
+            startActivity(intentToUsers)
+        }
 
 
 

@@ -3,12 +3,14 @@ package com.example.eventmanagement.eventactivities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eventmanagement.admin.eventManager.AdminShowAllEvents
 import com.example.eventmanagement.admin.userManager.AdminShowAllUsers
+import com.example.eventmanagement.constants.CurrentUserRole
 
 import com.example.eventmanagement.databinding.ActivityEventDisplayerBinding
 import com.example.eventmanagement.eventmodel.EventDTO
@@ -33,9 +35,14 @@ class EventDisplayerActivity : AppCompatActivity() {
     var totalPages : Int = 0;
 
     override  fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityEventDisplayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
+
         binding.createNewEvents.setOnClickListener {
             if(binding.managementPanel.visibility==View.GONE && binding.AdminPanel.visibility==View.GONE){
                 binding.managementPanel.visibility=View.VISIBLE
@@ -47,12 +54,25 @@ class EventDisplayerActivity : AppCompatActivity() {
             }
         }
         binding.managementPanel.setOnClickListener {
-            val intentToManagement = Intent(this@EventDisplayerActivity,ManagementShowEvents::class.java)
-            startActivity(intentToManagement)
+            if(CurrentUserRole.currentUserRole=="[MANAGEMENT]" || CurrentUserRole.currentUserRole=="[ADMIN]") {
+                val intentToManagement =
+                    Intent(this@EventDisplayerActivity, ManagementShowEvents::class.java)
+                startActivity(intentToManagement)
+            }
+            else{
+                Toast.makeText(this@EventDisplayerActivity, "You are not eligible for this", Toast.LENGTH_SHORT).show()
+            }
         }
         binding.AdminPanel.setOnClickListener {
-            val intentToAdmin = Intent(this@EventDisplayerActivity,AdminShowAllEvents::class.java)
-            startActivity(intentToAdmin)
+            if(CurrentUserRole.currentUserRole=="[ADMIN]") {
+                val intentToAdmin =
+                    Intent(this@EventDisplayerActivity, AdminShowAllUsers::class.java)
+//            val intentToAdmin = Intent(this@EventDisplayerActivity,AdminShowAllEvents::class.java)
+                startActivity(intentToAdmin)
+            }
+            else{
+                Toast.makeText(this@EventDisplayerActivity, "You are not eligible for this", Toast.LENGTH_SHORT).show()
+            }
         }
 
         GlobalScope.launch { getEvents() }

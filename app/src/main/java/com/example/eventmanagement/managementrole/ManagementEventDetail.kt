@@ -33,7 +33,7 @@ class ManagementEventDetail : AppCompatActivity() {
         binding.ManagementDeleteEvent.setOnClickListener {
             deleteEvent(passId)
         }
-        binding.ManagementDeleteEvent.setOnClickListener {
+        binding.ManagementEditEvent.setOnClickListener {
             editEvent(passId,title,content,location,startDay,endDay,startTime,endTime)
         }
         binding.eventDetailTitle.text = title

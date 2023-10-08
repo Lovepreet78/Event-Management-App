@@ -50,7 +50,9 @@ interface EventsApi {
     @GET("/admin/events")
     fun getAllEventsForAdmin(@Query("page") page:Int): Call<AdminUserModel>
 
-    fun updateUserRole(@Path("id") userId:Long,@Body role:String):Call<Void>
+    @POST("admin/updateUserRole/{id}")
+    fun updateUserRole(@Path("id") userId:Long,@Body role:List<String>):Call<String>
+
 
     @GET("admin/users")
     fun getUsersForAdmin(@Query("page") page:Int): Call<AdminAllUsersModel>

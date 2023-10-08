@@ -34,7 +34,7 @@ class ManagementEditEvent : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityManagementEditEventBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_management_edit_event)
+        setContentView(binding.root)
 
         val intentFromEdit = intent
         val eventId  = intentFromEdit.getLongExtra("eventId",0)
@@ -46,7 +46,7 @@ class ManagementEditEvent : AppCompatActivity() {
         val startTime = intentFromEdit.getStringExtra("startTime")
         val endTime = intentFromEdit.getStringExtra("endTime")
         val previousEvent = EventPostDTO(eventId,title,content,location,startDay,endDay,startTime,endTime)
-
+        updateItems(eventId,title,content,location,startTime,startDay,endTime,endDay)
 
 
         binding.startDateSelector.setOnClickListener {
@@ -68,7 +68,7 @@ class ManagementEditEvent : AppCompatActivity() {
 
 
 
-        updateItems(eventId,title,content,location,startTime,startDay,endTime,endDay)
+
         binding.SubmitNewEvent.setOnClickListener {
             updateEvent(eventId,previousEvent)
         }
