@@ -72,6 +72,7 @@ class AdminEventDetail : AppCompatActivity() {
         intentToEditEvent.putExtra("startTime",startTime)
         intentToEditEvent.putExtra("endTime",endTime)
         startActivity(intentToEditEvent)
+        finish()
     }
 
 //    private fun editEvent(passId: Long?) {

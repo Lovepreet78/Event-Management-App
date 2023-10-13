@@ -12,6 +12,7 @@ import com.example.eventmanagement.admin.userEventModel.AdminUserDTO
 import com.example.eventmanagement.admin.userEventModel.AdminUserModel
 import com.example.eventmanagement.admin.userManager.AdminShowAllUsers
 import com.example.eventmanagement.databinding.ActivityAdminShowAllEventsBinding
+import com.example.eventmanagement.eventactivities.EventPostData
 import com.example.eventmanagement.eventactivities.recyclerview.EventsRecyclerView
 import com.example.eventmanagement.eventmodel.EventModel
 import com.example.eventmanagement.retrofit.RetrofitClient
@@ -34,6 +35,10 @@ class AdminShowAllEvents : AppCompatActivity() {
         binding.seeAllUsers.setOnClickListener {
             val intentToUsers = Intent(this@AdminShowAllEvents,AdminShowAllUsers::class.java)
             startActivity(intentToUsers)
+        }
+        binding.createNewEvents.setOnClickListener {
+            val intentToPost = Intent(this@AdminShowAllEvents,EventPostData::class.java)
+            startActivity(intentToPost)
         }
 
 

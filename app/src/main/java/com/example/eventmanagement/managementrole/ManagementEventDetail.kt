@@ -64,6 +64,7 @@ class ManagementEventDetail : AppCompatActivity() {
         intentToEditEvent.putExtra("startTime",startTime)
         intentToEditEvent.putExtra("endTime",endTime)
         startActivity(intentToEditEvent)
+        finish()
     }
 
 

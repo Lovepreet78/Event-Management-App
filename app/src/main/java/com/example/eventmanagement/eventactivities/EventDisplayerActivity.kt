@@ -66,7 +66,7 @@ class EventDisplayerActivity : AppCompatActivity() {
         binding.AdminPanel.setOnClickListener {
             if(CurrentUserRole.currentUserRole=="[ADMIN]") {
                 val intentToAdmin =
-                    Intent(this@EventDisplayerActivity, AdminShowAllUsers::class.java)
+                    Intent(this@EventDisplayerActivity, AdminShowAllEvents::class.java)
 //            val intentToAdmin = Intent(this@EventDisplayerActivity,AdminShowAllEvents::class.java)
                 startActivity(intentToAdmin)
             }

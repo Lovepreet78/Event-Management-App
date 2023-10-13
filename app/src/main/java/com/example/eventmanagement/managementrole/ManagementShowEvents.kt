@@ -1,5 +1,6 @@
 package com.example.eventmanagement.managementrole
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import com.example.eventmanagement.R
 import com.example.eventmanagement.admin.AdminEventsRecyclerview.AdminEventsViewAdapter
 import com.example.eventmanagement.admin.userEventModel.AdminUserModel
 import com.example.eventmanagement.databinding.ActivityManagementShowEventsBinding
+import com.example.eventmanagement.eventactivities.EventPostData
 import com.example.eventmanagement.managementrole.adapter.ManagementEventAdapter
 import com.example.eventmanagement.managementrole.managementeventmodel.ManagementEventDTO
 import com.example.eventmanagement.managementrole.managementeventmodel.ManagementEventsModel
@@ -24,6 +26,10 @@ class ManagementShowEvents : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityManagementShowEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.createNewEvents.setOnClickListener {
+            val intentToPost = Intent(this@ManagementShowEvents, EventPostData::class.java)
+            startActivity(intentToPost)
+        }
 
         callForPageZero()
 

@@ -14,6 +14,7 @@ import com.example.eventmanagement.admin.userManager.adminuserrecylerviewadapter
 import com.example.eventmanagement.databinding.ActivityAdminShowAllUsersBinding
 import com.example.eventmanagement.retrofit.RetrofitClient
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,6 +31,7 @@ class AdminShowAllUsers : AppCompatActivity() {
         setContentView(binding.root)
 
         callForPageZero()
+
 
     }
 
@@ -53,7 +55,38 @@ class AdminShowAllUsers : AppCompatActivity() {
                     if (toBeAddedToList != null) {
                         usersList.addAll(toBeAddedToList)
                     }
-                    callForNextPages()
+                    for(i in 1..totalPages){
+                        val apiService = RetrofitClient.create()
+                        val call  = apiService.getUsersForAdmin(i)
+
+                        call.enqueue(object : Callback<AdminAllUsersModel>{
+                            override fun onResponse(
+                                call: Call<AdminAllUsersModel>,
+                                response: Response<AdminAllUsersModel>
+                            ) {
+                                if(response.isSuccessful){
+                                    val users = response.body()
+
+                                    val toBeAddedToList  = users?.content
+                                    if (toBeAddedToList != null) {
+                                        usersList.addAll(toBeAddedToList)
+                                    }
+
+
+                                }
+                                else{
+                                    Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+
+                            override fun onFailure(call: Call<AdminAllUsersModel>, t: Throwable) {
+                                Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users!!", Toast.LENGTH_SHORT).show()
+                            }
+
+                        })
+
+                    }
+                    setDataToAdapter()
                 }
                 else{
                     Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users", Toast.LENGTH_SHORT).show()
@@ -100,6 +133,7 @@ class AdminShowAllUsers : AppCompatActivity() {
 
         }
         setDataToAdapter()
+
 
     }
     private fun setDataToAdapter() {
