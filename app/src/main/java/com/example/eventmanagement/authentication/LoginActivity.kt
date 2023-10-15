@@ -1,5 +1,6 @@
 package com.example.eventmanagement.authentication
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -48,7 +49,14 @@ class LoginActivity : AppCompatActivity() {
 
                 val userName = binding.usernameEditTextLogin.text.toString()
                 val password = binding.passwordEditTextLogin.text.toString()
-                Log.d("Love", "$userName $password")
+
+
+                val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putString("username", userName)
+                editor.putString("password", password)
+                editor.apply()
+
                 loginUser(userName, password)
 
             }
@@ -76,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
                             val userRole = response.headers().get("roles").toString()
 
                             Cookie.cookie = cookie
-                        Log.d("currfuck", CurrentUserRole.currentUserRole!!.toString())
+
                             CurrentUserRole.currentUserRole = userRole
 
                             val intentToEvents =
