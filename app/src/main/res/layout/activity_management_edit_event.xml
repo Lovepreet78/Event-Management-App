@@ -27,6 +27,9 @@
                 android:textSize="18sp"/>
 
             <EditText
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/edit_text_bg_2"
+                android:padding="5dp"
                 android:id="@+id/editTextTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,12 +37,16 @@
 
             <!-- Event Description -->
             <TextView
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Description"
                 android:textSize="18sp"/>
 
             <EditText
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/edit_text_bg_2"
+                android:padding="5dp"
                 android:id="@+id/editTextDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,12 +55,16 @@
 
             <!-- Event Location -->
             <TextView
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Location"
                 android:textSize="18sp"/>
 
             <EditText
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/edit_text_bg_2"
+                android:padding="5dp"
                 android:id="@+id/editTextLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,6 +72,7 @@
 
             <!-- Event Date and Time -->
             <TextView
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Date and Time"

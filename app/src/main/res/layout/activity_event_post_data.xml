@@ -24,19 +24,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Title"
+                android:textStyle="bold"
                 android:textSize="18sp"/>
 
             <EditText
+
                 android:id="@+id/editTextTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:background="@drawable/edit_text_bg_2"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:hint="Enter Event Title"/>
 
             <!-- Event Description -->
             <TextView
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Description"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:textSize="18sp"/>
 
             <EditText
@@ -44,23 +51,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Event Description"
+                android:padding="5dp"
+                android:background="@drawable/edit_text_bg_2"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:inputType="textMultiLine"/>
 
             <!-- Event Location -->
             <TextView
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Location"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:textSize="18sp"/>
 
             <EditText
                 android:id="@+id/editTextLocation"
+                android:padding="5dp"
+                android:background="@drawable/edit_text_bg_2"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Event Location"/>
 
             <!-- Event Date and Time -->
             <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Date and Time"

@@ -19,6 +19,7 @@ class AdminUserDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminUserDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.title ="User Detail"
 
         val intentFromUserClick = intent
         val userId = intentFromUserClick.getLongExtra("userId",0)

@@ -31,7 +31,7 @@ class AdminShowAllEvents : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminShowAllEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        supportActionBar?.title ="All Events : Admin"
         binding.seeAllUsers.setOnClickListener {
             val intentToUsers = Intent(this@AdminShowAllEvents,AdminShowAllUsers::class.java)
             startActivity(intentToUsers)

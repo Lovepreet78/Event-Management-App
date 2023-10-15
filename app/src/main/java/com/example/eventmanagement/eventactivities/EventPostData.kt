@@ -36,6 +36,8 @@ class EventPostData : AppCompatActivity() {
         binding = ActivityEventPostDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.title ="Post New Event"
+
         binding.startDateSelector.setOnClickListener {
             openStartDialogDate()
         }

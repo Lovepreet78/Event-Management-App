@@ -29,6 +29,7 @@ class AdminShowAllUsers : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminShowAllUsersBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.title ="All Users List"
 
         callForPageZero()
 

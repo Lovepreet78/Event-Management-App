@@ -33,6 +33,7 @@ class AdminEditEvent : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminEditEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.title ="Edit Event : Admin"
 
         val intentFromEdit = intent
         val eventId  = intentFromEdit.getLongExtra("eventId",0)

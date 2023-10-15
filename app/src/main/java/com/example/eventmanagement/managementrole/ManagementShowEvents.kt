@@ -26,6 +26,7 @@ class ManagementShowEvents : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityManagementShowEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.title ="My Events : Management"
         binding.createNewEvents.setOnClickListener {
             val intentToPost = Intent(this@ManagementShowEvents, EventPostData::class.java)
             startActivity(intentToPost)
