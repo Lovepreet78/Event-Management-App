@@ -61,7 +61,7 @@ class SignUpActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@SignUpActivity, "User Created Successfully", Toast.LENGTH_SHORT).show()
-                    val intentToEvents = Intent(this@SignUpActivity, EventDisplayerActivity::class.java)
+                    val intentToEvents = Intent(this@SignUpActivity, LoginActivity::class.java)
                     startActivity(intentToEvents)
                     finish()
                 } else {

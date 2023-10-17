@@ -11,6 +11,7 @@ class EventDetail : AppCompatActivity() {
         binding = ActivityEventDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         val intentFromEvent = intent
         val title = intentFromEvent.getStringExtra("title")
         val content = intentFromEvent.getStringExtra("content")

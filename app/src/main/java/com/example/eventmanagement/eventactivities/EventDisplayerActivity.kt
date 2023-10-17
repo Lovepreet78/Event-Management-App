@@ -39,6 +39,7 @@ class EventDisplayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEventDisplayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.title ="Events"
 
 
 

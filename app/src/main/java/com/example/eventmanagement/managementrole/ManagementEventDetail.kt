@@ -18,6 +18,7 @@ class ManagementEventDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityManagementEventDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.title ="Edit My Event"
 
         val intentFromEvent = intent
         val title = intentFromEvent.getStringExtra("title")

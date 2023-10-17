@@ -29,6 +29,7 @@ class AdminShowAllUsers : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminShowAllUsersBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.title ="All Users List"
 
         callForPageZero()
 
@@ -55,38 +56,9 @@ class AdminShowAllUsers : AppCompatActivity() {
                     if (toBeAddedToList != null) {
                         usersList.addAll(toBeAddedToList)
                     }
-                    for(i in 1..totalPages){
-                        val apiService = RetrofitClient.create()
-                        val call  = apiService.getUsersForAdmin(i)
 
-                        call.enqueue(object : Callback<AdminAllUsersModel>{
-                            override fun onResponse(
-                                call: Call<AdminAllUsersModel>,
-                                response: Response<AdminAllUsersModel>
-                            ) {
-                                if(response.isSuccessful){
-                                    val users = response.body()
-
-                                    val toBeAddedToList  = users?.content
-                                    if (toBeAddedToList != null) {
-                                        usersList.addAll(toBeAddedToList)
-                                    }
-
-
-                                }
-                                else{
-                                    Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-
-                            override fun onFailure(call: Call<AdminAllUsersModel>, t: Throwable) {
-                                Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users!!", Toast.LENGTH_SHORT).show()
-                            }
-
-                        })
-
-                    }
                     setDataToAdapter()
+                    callForNextPages()
                 }
                 else{
                     Toast.makeText(this@AdminShowAllUsers, "Failed to fetch users", Toast.LENGTH_SHORT).show()
@@ -118,6 +90,7 @@ class AdminShowAllUsers : AppCompatActivity() {
                         if (toBeAddedToList != null) {
                             usersList.addAll(toBeAddedToList)
                         }
+                        setDataToAdapter()
 
                     }
                     else{
@@ -132,7 +105,7 @@ class AdminShowAllUsers : AppCompatActivity() {
             })
 
         }
-        setDataToAdapter()
+
 
 
     }
