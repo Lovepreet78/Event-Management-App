@@ -19,10 +19,14 @@ import com.example.eventmanagement.eventmodel.EventModel
 import com.example.eventmanagement.eventactivities.recyclerview.EventsRecyclerView
 import com.example.eventmanagement.managementrole.ManagementShowEvents
 import com.example.eventmanagement.retrofit.RetrofitClient
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Response
 
@@ -40,6 +44,8 @@ class EventDisplayerActivity : AppCompatActivity() {
         binding = ActivityEventDisplayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title ="Events"
+
+        refreshLayout()
 
 
 
@@ -68,7 +74,6 @@ class EventDisplayerActivity : AppCompatActivity() {
             if(CurrentUserRole.currentUserRole=="[ADMIN]") {
                 val intentToAdmin =
                     Intent(this@EventDisplayerActivity, AdminShowAllEvents::class.java)
-//            val intentToAdmin = Intent(this@EventDisplayerActivity,AdminShowAllEvents::class.java)
                 startActivity(intentToAdmin)
             }
             else{
@@ -87,11 +92,29 @@ class EventDisplayerActivity : AppCompatActivity() {
 
 
     }
+//        override fun onResume() {
+//        super.onResume()
+//            getEvents()
+//
+//        }
 
-    private suspend fun getNextPagesEvents() {
+    private  fun refreshLayout() {
+        binding.swipeRefreshGuestMode.setOnRefreshListener {
+
+            runBlocking {
+                val job = CoroutineScope(Dispatchers.IO).async {
+                    getEvents()
+                }
+                job.await()
+                binding.swipeRefreshGuestMode.isRefreshing=false
+            }
+        }
+    }
+
+    private  fun getNextPagesEvents() {
         val apiService = RetrofitClient.create()
          GlobalScope.launch  {
-//             Log.d("Love",totalPages.toString()+" cookie = "+Cookie.cookie)
+
 
             for (i in 1..totalPages) {
 
@@ -112,24 +135,21 @@ class EventDisplayerActivity : AppCompatActivity() {
                             binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
 
 
+
+                        }
+//                        else {
 //                            Toast.makeText(
 //                                this@EventDisplayerActivity,
-//                                "A Done",
+//                                "A not Done",
 //                                Toast.LENGTH_SHORT
 //                            ).show()
-                        } else {
-                            Toast.makeText(
-                                this@EventDisplayerActivity,
-                                "A not Done",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+//                        }
                     }
 
                     override fun onFailure(call: Call<EventModel>, t: Throwable) {
                         Toast.makeText(
                             this@EventDisplayerActivity,
-                            "A Something went wrong!!",
+                            "Something went wrong!!",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -143,9 +163,9 @@ class EventDisplayerActivity : AppCompatActivity() {
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    private suspend fun getEvents() {
+    private fun getEvents() {
 
-        val job1= GlobalScope.launch {
+        GlobalScope.launch {
 
 
 
@@ -166,22 +186,21 @@ class EventDisplayerActivity : AppCompatActivity() {
                         binding.eventRecyclerView.adapter=adapter
                         adapter.notifyDataSetChanged()
                         binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
-
-//                        Toast.makeText(this@EventDisplayerActivity, "P Done", Toast.LENGTH_SHORT).show()
+                        getNextPagesEvents()
                     }
                     else{
-                        Toast.makeText(this@EventDisplayerActivity, "P not Done", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@EventDisplayerActivity, "Something Went Wrong", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<EventModel>, t: Throwable) {
-                    Toast.makeText(this@EventDisplayerActivity, "P Something went wrong!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EventDisplayerActivity, "Something went wrong!!", Toast.LENGTH_SHORT).show()
                 }
             })
 
         }
-        delay(2000)
-        getNextPagesEvents()
+
+
 
     }
 }

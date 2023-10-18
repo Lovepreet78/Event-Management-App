@@ -8,11 +8,19 @@
     tools:context=".eventactivities.EventDisplayerActivity"
     android:orientation="vertical"
     android:gravity="center">
-    <androidx.recyclerview.widget.RecyclerView
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/eventRecyclerView"
-        />
+        android:id="@+id/swipeRefreshGuestMode">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/eventRecyclerView"
+            />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <TextView
         android:id="@+id/noEventsText"
         android:layout_width="wrap_content"

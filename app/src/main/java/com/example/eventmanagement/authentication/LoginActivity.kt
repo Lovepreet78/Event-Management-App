@@ -51,11 +51,7 @@ class LoginActivity : AppCompatActivity() {
                 val password = binding.passwordEditTextLogin.text.toString()
 
 
-                val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-                editor.putString("username", userName)
-                editor.putString("password", password)
-                editor.apply()
+
 
                 loginUser(userName, password)
 
@@ -86,6 +82,12 @@ class LoginActivity : AppCompatActivity() {
                             Cookie.cookie = cookie
 
                             CurrentUserRole.currentUserRole = userRole
+
+                        val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putString("username", userName)
+                        editor.putString("password", password)
+                        editor.apply()
 
                             val intentToEvents =
                                 Intent(this@LoginActivity, EventDisplayerActivity::class.java)

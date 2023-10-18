@@ -1,20 +1,20 @@
 package com.example.eventmanagement.managementrole
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.eventmanagement.R
-import com.example.eventmanagement.admin.AdminEventsRecyclerview.AdminEventsViewAdapter
-import com.example.eventmanagement.admin.userEventModel.AdminUserModel
 import com.example.eventmanagement.databinding.ActivityManagementShowEventsBinding
 import com.example.eventmanagement.eventactivities.EventPostData
 import com.example.eventmanagement.managementrole.adapter.ManagementEventAdapter
 import com.example.eventmanagement.managementrole.managementeventmodel.ManagementEventDTO
 import com.example.eventmanagement.managementrole.managementeventmodel.ManagementEventsModel
 import com.example.eventmanagement.retrofit.RetrofitClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Response
 
@@ -23,6 +23,7 @@ class ManagementShowEvents : AppCompatActivity() {
     var totalPages:Int=0
     var allEvents = mutableListOf<ManagementEventDTO>()
     override fun onCreate(savedInstanceState: Bundle?) {
+        refreshLayout()
         super.onCreate(savedInstanceState)
         binding = ActivityManagementShowEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -35,6 +36,10 @@ class ManagementShowEvents : AppCompatActivity() {
         callForPageZero()
 
     }
+//    override fun onResume() {
+//        super.onResume()
+//        callForPageZero()
+//    }
 
     private  fun callForPageZero() {
 
@@ -55,21 +60,22 @@ class ManagementShowEvents : AppCompatActivity() {
 
 
                     totalPages = responseList.totalPages
-//                    Log.d("adminEE2",allEvents.toString()+" totalpages = $totalPages")
+
                     setDataToAdapter()
                     callForNextPages()
                 }
                 else{
-                    Toast.makeText(this@ManagementShowEvents, "Admin call for event failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ManagementShowEvents, "Something Went Wrong", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<ManagementEventsModel>, t: Throwable) {
-                Toast.makeText(this@ManagementShowEvents, "Admin call for event failed!!!!!!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ManagementShowEvents, "Something Went Wrong!!", Toast.LENGTH_SHORT).show()
             }
 
         })
     }
+
     private fun setDataToAdapter() {
 
 
@@ -100,12 +106,12 @@ class ManagementShowEvents : AppCompatActivity() {
                         setDataToAdapter()
                     }
                     else{
-                        Toast.makeText(this@ManagementShowEvents, "Management call for event failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ManagementShowEvents, "Something Went Wrong", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<ManagementEventsModel>, t: Throwable) {
-                    Toast.makeText(this@ManagementShowEvents, "Management call for event failed!!!!!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ManagementShowEvents, "Something Went Wrong!!", Toast.LENGTH_SHORT).show()
                 }
 
             })
@@ -113,4 +119,18 @@ class ManagementShowEvents : AppCompatActivity() {
 
 
     }
+
+    private  fun refreshLayout() {
+        binding.swipeRefreshManagementModeEvents.setOnRefreshListener {
+
+            runBlocking {
+                val job = CoroutineScope(Dispatchers.IO).async {
+                    callForPageZero()
+                }
+                job.await()
+                binding.swipeRefreshManagementModeEvents.isRefreshing=false
+            }
+        }
+    }
+
 }

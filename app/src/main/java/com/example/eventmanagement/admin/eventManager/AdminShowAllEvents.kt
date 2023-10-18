@@ -16,7 +16,10 @@ import com.example.eventmanagement.eventactivities.EventPostData
 import com.example.eventmanagement.eventactivities.recyclerview.EventsRecyclerView
 import com.example.eventmanagement.eventmodel.EventModel
 import com.example.eventmanagement.retrofit.RetrofitClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -32,6 +35,8 @@ class AdminShowAllEvents : AppCompatActivity() {
         binding = ActivityAdminShowAllEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title ="All Events : Admin"
+
+        refreshLayout()
         binding.seeAllUsers.setOnClickListener {
             val intentToUsers = Intent(this@AdminShowAllEvents,AdminShowAllUsers::class.java)
             startActivity(intentToUsers)
@@ -42,11 +47,8 @@ class AdminShowAllEvents : AppCompatActivity() {
         }
 
 
+        callForPageZero()
 
-//            Toast.makeText(this@AdminShowAllEvents, "in runblocking", Toast.LENGTH_SHORT).show()
-
-            callForPageZero()
-            Log.d("adminqq","tot = $totalPages")
 
 
     }
@@ -61,6 +63,10 @@ class AdminShowAllEvents : AppCompatActivity() {
         adapter.notifyDataSetChanged()
 
     }
+//        override fun onResume() {
+//        super.onResume()
+//        callForPageZero()
+//    }
 
     private fun callForNextPages() {
 
@@ -81,12 +87,12 @@ class AdminShowAllEvents : AppCompatActivity() {
                             setDataToAdapter()
                         }
                         else{
-                            Toast.makeText(this@AdminShowAllEvents, "Admin call for event failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@AdminShowAllEvents, "Something Went Wrong", Toast.LENGTH_SHORT).show()
                         }
                     }
 
                     override fun onFailure(call: Call<AdminUserModel>, t: Throwable) {
-                        Toast.makeText(this@AdminShowAllEvents, "Admin call for event failed!!!!!!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@AdminShowAllEvents, "Something Went Wrong!!!", Toast.LENGTH_SHORT).show()
                     }
 
                 })
@@ -114,21 +120,34 @@ class AdminShowAllEvents : AppCompatActivity() {
 
 
                         totalPages = responseList.totalPages
-                        Log.d("adminEE2",allEvents.toString()+" totalpages = $totalPages")
+
                         setDataToAdapter()
                         callForNextPages()
                     }
                     else{
-                        Toast.makeText(this@AdminShowAllEvents, "Admin call for event failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@AdminShowAllEvents, "Something Went Wrong", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<AdminUserModel>, t: Throwable) {
-                    Toast.makeText(this@AdminShowAllEvents, "Admin call for event failed!!!!!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AdminShowAllEvents, "Something Went Wrong!!", Toast.LENGTH_SHORT).show()
                 }
 
             })
         }
+
+    private  fun refreshLayout() {
+        binding.swipeRefreshAdminModeEvents.setOnRefreshListener {
+
+            runBlocking {
+                val job = CoroutineScope(Dispatchers.IO).async {
+                    callForPageZero()
+                }
+                job.await()
+                binding.swipeRefreshAdminModeEvents.isRefreshing=false
+            }
+        }
+    }
 
 
 

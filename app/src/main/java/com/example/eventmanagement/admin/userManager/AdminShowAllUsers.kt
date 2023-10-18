@@ -13,9 +13,13 @@ import com.example.eventmanagement.admin.userManager.AdminUsersModel.Content
 import com.example.eventmanagement.admin.userManager.adminuserrecylerviewadapter.ShowUsersAdapter
 import com.example.eventmanagement.databinding.ActivityAdminShowAllUsersBinding
 import com.example.eventmanagement.retrofit.RetrofitClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,8 +34,9 @@ class AdminShowAllUsers : AppCompatActivity() {
         binding = ActivityAdminShowAllUsersBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title ="All Users List"
-
+        refreshLayout()
         callForPageZero()
+
 
 
     }
@@ -73,6 +78,7 @@ class AdminShowAllUsers : AppCompatActivity() {
 
 
     }
+
     private fun callForNextPages() {
         for(i in 1..totalPages){
             val apiService = RetrofitClient.create()
@@ -109,6 +115,8 @@ class AdminShowAllUsers : AppCompatActivity() {
 
 
     }
+
+
     private fun setDataToAdapter() {
 
 
@@ -120,7 +128,23 @@ class AdminShowAllUsers : AppCompatActivity() {
 
     }
 
+    private  fun refreshLayout() {
+        binding.swipeRefreshAdminModeUsers.setOnRefreshListener {
 
+            runBlocking {
+                val job = CoroutineScope(Dispatchers.IO).async {
+                    callForPageZero()
+                }
+                job.await()
+                binding.swipeRefreshAdminModeUsers.isRefreshing=false
+            }
+        }
+    }
+
+//    override fun onResume() {
+//        super.onResume()
+//        callForPageZero()
+//    }
 
 
 }

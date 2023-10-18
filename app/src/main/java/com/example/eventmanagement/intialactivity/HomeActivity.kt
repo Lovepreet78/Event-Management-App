@@ -42,6 +42,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.savedLoginButtonHome.setOnClickListener {
+            binding.progressBarHome.visibility = View.VISIBLE
             val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
             val savedUsername = sharedPreferences.getString("username", null)
             val savedPassword = sharedPreferences.getString("password", null)
@@ -50,10 +51,12 @@ class HomeActivity : AppCompatActivity() {
                 if(savedUsername.isNotBlank() && savedPassword.isNotEmpty()){
                     loginUser(savedUsername,savedPassword)
                 }
-                else{
+                binding.progressBarHome.visibility = View.GONE
 
-                    Toast.makeText(this@HomeActivity, "No Saved Login Info", Toast.LENGTH_SHORT).show()
-                }
+            }
+            else{
+                binding.progressBarHome.visibility = View.GONE
+                Toast.makeText(this@HomeActivity, "No Saved Login Info", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -77,7 +80,7 @@ class HomeActivity : AppCompatActivity() {
                         val userRole = response.headers().get("roles").toString()
 
                         Cookie.cookie = cookie
-                        Log.d("currfuck", CurrentUserRole.currentUserRole!!.toString())
+
                         CurrentUserRole.currentUserRole = userRole
 
                         val intentToEvents =
@@ -88,7 +91,7 @@ class HomeActivity : AppCompatActivity() {
 
                     }
                     else {
-                        Log.d("Love",response.code().toString())
+
 
                         Toast.makeText(this@HomeActivity, "Wrong Credential!!", Toast.LENGTH_SHORT)
                             .show()
@@ -97,9 +100,9 @@ class HomeActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
 
-                    Toast.makeText(this@HomeActivity, "Something Went Wrong", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@HomeActivity, "Something Went Wrong, Try Again", Toast.LENGTH_SHORT)
                         .show()
-                    throw t
+
                 }
             })
         }

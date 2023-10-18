@@ -6,10 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".managementrole.ManagementShowEvents">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/managementEventRecyclerView"/>
+        android:id="@+id/swipeRefreshManagementModeEvents">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/managementEventRecyclerView"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/createNewEvents"
         android:layout_width="wrap_content"
