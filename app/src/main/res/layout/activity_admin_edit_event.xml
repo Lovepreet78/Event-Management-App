@@ -69,6 +69,22 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_height="wrap_content"
                 android:hint="Enter Event Location"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event Registration Link (Optional)"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:id="@+id/editTextEventLink"
+                android:padding="5dp"
+                android:background="@drawable/edit_text_bg_2"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Event Registration Link"/>
 
             <!-- Event Date and Time -->
             <TextView
@@ -148,6 +164,16 @@
                 android:layout_gravity="center_horizontal"
 
                 />
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Image"
+                android:id="@+id/imageSelector"
+                android:layout_gravity="center_horizontal"
+
+                />
+
 
 
 

@@ -47,7 +47,7 @@ class AdminShowAllEvents : AppCompatActivity() {
         }
 
 
-        callForPageZero()
+//        callForPageZero()
 
 
 
@@ -63,10 +63,13 @@ class AdminShowAllEvents : AppCompatActivity() {
         adapter.notifyDataSetChanged()
 
     }
-//        override fun onResume() {
-//        super.onResume()
-//        callForPageZero()
-//    }
+    override fun onResume() {
+//        binding = ActivityAdminShowAllEventsBinding.inflate(layoutInflater)
+        allEvents.clear()
+        setDataToAdapter()
+        super.onResume()
+        callForPageZero()
+    }
 
     private fun callForNextPages() {
 
@@ -134,10 +137,17 @@ class AdminShowAllEvents : AppCompatActivity() {
                 }
 
             })
+
         }
 
+
+
     private  fun refreshLayout() {
+
         binding.swipeRefreshAdminModeEvents.setOnRefreshListener {
+            allEvents.clear()
+            setDataToAdapter()
+
 
             runBlocking {
                 val job = CoroutineScope(Dispatchers.IO).async {
@@ -145,6 +155,7 @@ class AdminShowAllEvents : AppCompatActivity() {
                 }
                 job.await()
                 binding.swipeRefreshAdminModeEvents.isRefreshing=false
+
             }
         }
     }

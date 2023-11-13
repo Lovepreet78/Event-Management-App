@@ -1,9 +1,11 @@
 package com.example.eventmanagement.managementrole
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.eventmanagement.R
 import com.example.eventmanagement.admin.eventManager.AdminEditEvent
 import com.example.eventmanagement.databinding.ActivityManagementEventDetailBinding
@@ -30,6 +32,9 @@ class ManagementEventDetail : AppCompatActivity() {
         val startTime = intentFromEvent.getStringExtra("startTime")
         val endTime = intentFromEvent.getStringExtra("endTime")
         val passId = id?.toLong()
+        val registrationLink = intentFromEvent.getStringExtra("registrationLink")
+        val imageLink = intentFromEvent.getStringExtra("imageLink")
+        Glide.with(this).load(imageLink).into(binding.imageView1);
 
         binding.ManagementDeleteEvent.setOnClickListener {
             deleteEvent(passId)
@@ -37,11 +42,32 @@ class ManagementEventDetail : AppCompatActivity() {
         binding.ManagementEditEvent.setOnClickListener {
             editEvent(passId,title,content,location,startDay,endDay,startTime,endTime)
         }
+
+        binding.registerToEventButton.setOnClickListener {
+            if(registrationLink!=null) {
+                intentToBrowser(registrationLink!!)
+            }
+            else
+                Toast.makeText(this, "No Registration", Toast.LENGTH_SHORT).show()
+        }
         binding.eventDetailTitle.text = title
         binding.eventDetailContent.text = content
         binding.eventDetailStart.text = startDay
         binding.eventDetailEnd.text = endDay
         binding.eventDetailLocation.text = location
+
+
+    }
+    private fun intentToBrowser(regLink: String) {
+        if(regLink=="") return
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(regLink))
+
+        // Check if there is a web browser available to handle the intent
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "No Browser Available", Toast.LENGTH_SHORT).show()
+        }
 
     }
 

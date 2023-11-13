@@ -1,7 +1,7 @@
 package com.example.eventmanagement.admin.userEventModel
 
 data class AdminUserDTO(
-    val ID: Long,
+    val id: Long,
     val content: String,
     val endDay: String,
     val endTime: String,
@@ -10,5 +10,8 @@ data class AdminUserDTO(
     val postedBy: String,
     val startDay: String,
     val startTime: String,
-    val title: String
+    val title: String,
+    val enrollmentLink:String,
+    val imageLink:String
+
 )

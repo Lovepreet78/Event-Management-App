@@ -35,7 +35,7 @@ class AdminShowAllUsers : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.title ="All Users List"
         refreshLayout()
-        callForPageZero()
+//        callForPageZero()
 
 
 
@@ -129,8 +129,10 @@ class AdminShowAllUsers : AppCompatActivity() {
     }
 
     private  fun refreshLayout() {
-        binding.swipeRefreshAdminModeUsers.setOnRefreshListener {
 
+        binding.swipeRefreshAdminModeUsers.setOnRefreshListener {
+            usersList.clear()
+            setDataToAdapter()
             runBlocking {
                 val job = CoroutineScope(Dispatchers.IO).async {
                     callForPageZero()
@@ -141,10 +143,12 @@ class AdminShowAllUsers : AppCompatActivity() {
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        callForPageZero()
-//    }
+    override fun onResume() {
+        usersList.clear()
+        setDataToAdapter()
+        super.onResume()
+        callForPageZero()
+    }
 
 
 }

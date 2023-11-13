@@ -11,5 +11,6 @@ data class ManagementEventsModel(
     val size: Int,
     val sort: SortX,
     val totalElements: Int,
-    val totalPages: Int
+    val totalPages: Int,
+
 )

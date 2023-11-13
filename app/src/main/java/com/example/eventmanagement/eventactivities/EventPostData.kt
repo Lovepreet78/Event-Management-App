@@ -1,12 +1,19 @@
 package com.example.eventmanagement.eventactivities
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.eventmanagement.databinding.ActivityEventPostDataBinding
+import com.example.eventmanagement.eventactivities.imageSelectorBitmap.uriToBitmap
 import com.example.eventmanagement.eventmodel.EventPostDTO
 import com.example.eventmanagement.eventmodel.LocalTimeConverter
 import com.example.eventmanagement.eventmodel.PostEventModel
@@ -30,6 +37,8 @@ class EventPostData : AppCompatActivity() {
     var toSendStartDate:LocalDate= LocalDate.now()
     var toSendEndTime:LocalTime = LocalTime.now()
     var toSendEndDate:LocalDate = LocalDate.now()
+    var imageString:Uri = Uri.EMPTY
+    var bitmapImage : Bitmap?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +59,25 @@ class EventPostData : AppCompatActivity() {
         binding.endTimeSelector.setOnClickListener {
             openEndDialogTime()
         }
+//        val contract = registerForActivityResult(ActivityResultContracts.GetContent()){
+//            imageString = it ?: Uri.EMPTY
+//        }
+//        binding.imageSelector.setOnClickListener {
+//            contract.launch("Image/*")
+//            val selectedImageUri: Uri = imageString
+//            val bitmap = uriToBitmap(this, selectedImageUri)
+//
+//            if (bitmap != null) {
+//                bitmapImage = bitmap
+//                binding.imageConfirmed.visibility = View.VISIBLE
+//            } else {
+//
+//                Toast.makeText(this, "Image Selection failed , try again", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//        binding.imageConfirmed.setOnClickListener {
+//            var imageLink:String = imageToUrl(bitmapImage!!)
+//        }
         binding.SubmitNewEvent.setOnClickListener {
             val eventTitle = binding.editTextTitle.text.toString()
             val eventDescription = binding.editTextDescription.text.toString()
@@ -59,13 +87,11 @@ class EventPostData : AppCompatActivity() {
 
             val endDate = binding.endDateShower.text.toString()
 
+            val imageLink: String? = null
+            val enrollmentLink: String? = null
 
 
-
-            val ttt = LocalTime.now()
-            val ttt2 = LocalTime.now().plusHours(2)
-
-            val e1 = EventPostDTO(100,eventTitle,eventDescription,eventLocation,toSendStartDate.toString(),toSendEndDate.toString(),toSendStartTime.toString(),toSendEndTime.toString());
+            val e1 = EventPostDTO(100,eventTitle,eventDescription,eventLocation,imageLink,enrollmentLink,toSendStartDate.toString(),toSendEndDate.toString(),toSendStartTime.toString(),toSendEndTime.toString());
 
 
             submitNewEvent(e1)
@@ -76,8 +102,12 @@ class EventPostData : AppCompatActivity() {
 
     }
 
+    private fun imageToUrl(bitmapImageL: Bitmap): String {
+
+        return ""
 
 
+    }
 
 
     private fun submitNewEvent(event: EventPostDTO) {

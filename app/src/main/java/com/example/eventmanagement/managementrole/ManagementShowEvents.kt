@@ -19,27 +19,31 @@ import retrofit2.Call
 import retrofit2.Response
 
 class ManagementShowEvents : AppCompatActivity() {
-    lateinit var binding: ActivityManagementShowEventsBinding
+     lateinit var binding: ActivityManagementShowEventsBinding
     var totalPages:Int=0
     var allEvents = mutableListOf<ManagementEventDTO>()
     override fun onCreate(savedInstanceState: Bundle?) {
-        refreshLayout()
+
         super.onCreate(savedInstanceState)
         binding = ActivityManagementShowEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        refreshLayout()
         supportActionBar?.title ="My Events : Management"
         binding.createNewEvents.setOnClickListener {
             val intentToPost = Intent(this@ManagementShowEvents, EventPostData::class.java)
             startActivity(intentToPost)
         }
 
-        callForPageZero()
+//        callForPageZero()
 
     }
-//    override fun onResume() {
-//        super.onResume()
-//        callForPageZero()
-//    }
+    override fun onResume() {
+        allEvents.clear()
+        setDataToAdapter()
+        super.onResume()
+//        binding = ActivityManagementShowEventsBinding.inflate(layoutInflater)
+        callForPageZero()
+    }
 
     private  fun callForPageZero() {
 
@@ -121,7 +125,11 @@ class ManagementShowEvents : AppCompatActivity() {
     }
 
     private  fun refreshLayout() {
+//        binding = ActivityManagementShowEventsBinding.inflate(layoutInflater)
+
         binding.swipeRefreshManagementModeEvents.setOnRefreshListener {
+            allEvents.clear()
+            setDataToAdapter()
 
             runBlocking {
                 val job = CoroutineScope(Dispatchers.IO).async {

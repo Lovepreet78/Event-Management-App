@@ -1,9 +1,12 @@
 package com.example.eventmanagement.admin.eventManager
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.eventmanagement.databinding.ActivityAdminEventDetailBinding
 import com.example.eventmanagement.retrofit.RetrofitClient
 import retrofit2.Call
@@ -31,10 +34,21 @@ class AdminEventDetail : AppCompatActivity() {
         val startTime = intentFromEvent.getStringExtra("startTime")
         val endTime = intentFromEvent.getStringExtra("endTime")
         val passId = id?.toLong()
+        val registrationLink = intentFromEvent.getStringExtra("registrationLink")
+        val imageLink = intentFromEvent.getStringExtra("imageLink")
+        Glide.with(this).load(imageLink).into(binding.imageView1);
+//        Log.d("iszero",id.toString())
         binding.adminDeleteEvent.setOnClickListener{
 
             deleteEvent(passId)
 
+        }
+        binding.registerToEventButton.setOnClickListener {
+            if(registrationLink!=null) {
+                intentToBrowser(registrationLink!!)
+            }
+            else
+                Toast.makeText(this, "No Registration", Toast.LENGTH_SHORT).show()
         }
         binding.adminEditEvent.setOnClickListener {
             editEvent(passId,title,content,location,startDay,endDay,startTime,endTime)
@@ -82,6 +96,18 @@ class AdminEventDetail : AppCompatActivity() {
 //
 //    }
 
+    private fun intentToBrowser(regLink: String) {
+        if(regLink=="") return
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(regLink))
+
+        // Check if there is a web browser available to handle the intent
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "No Browser Available", Toast.LENGTH_SHORT).show()
+        }
+
+    }
     private fun deleteEvent(passId: Long?) {
         val apiService = RetrofitClient.create()
 

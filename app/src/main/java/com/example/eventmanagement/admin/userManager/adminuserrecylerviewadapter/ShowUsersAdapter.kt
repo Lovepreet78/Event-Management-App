@@ -8,11 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventmanagement.R
-import com.example.eventmanagement.admin.AdminEventsRecyclerview.AdminEventsViewAdapter
-import com.example.eventmanagement.admin.eventManager.AdminEventDetail
-import com.example.eventmanagement.admin.userEventModel.AdminUserDTO
 import com.example.eventmanagement.admin.userManager.AdminUserDetail
-import com.example.eventmanagement.admin.userManager.AdminUsersModel.AdminAllUsersModel
 import com.example.eventmanagement.admin.userManager.AdminUsersModel.Content
 
 class ShowUsersAdapter(private val user:List<Content>, private val context: Context): RecyclerView.Adapter<ShowUsersAdapter.ViewHolder>() {
@@ -33,7 +29,7 @@ class ShowUsersAdapter(private val user:List<Content>, private val context: Cont
 
         holder.itemView.setOnClickListener {
             val intentToUserDetail = Intent(context,AdminUserDetail::class.java)
-            intentToUserDetail.putExtra("userId",currentItem.ID)
+            intentToUserDetail.putExtra("userId",currentItem.id)
             intentToUserDetail.putExtra("userName",currentItem.username)
             intentToUserDetail.putExtra("userRole",role)
             context.startActivity(intentToUserDetail)

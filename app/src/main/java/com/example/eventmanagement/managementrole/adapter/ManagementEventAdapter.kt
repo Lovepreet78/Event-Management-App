@@ -8,9 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventmanagement.R
-import com.example.eventmanagement.admin.AdminEventsRecyclerview.AdminEventsViewAdapter
-import com.example.eventmanagement.admin.eventManager.AdminEventDetail
-import com.example.eventmanagement.admin.userEventModel.AdminUserDTO
 import com.example.eventmanagement.managementrole.ManagementEventDetail
 import com.example.eventmanagement.managementrole.managementeventmodel.ManagementEventDTO
 
@@ -32,9 +29,13 @@ class ManagementEventAdapter(private val events:List<ManagementEventDTO>, privat
             intentToEventDetail.putExtra("startDay",currentItem.startDay)
             intentToEventDetail.putExtra("endDay",currentItem.endDay)
             intentToEventDetail.putExtra("location",currentItem.location)
-            intentToEventDetail.putExtra("id",currentItem.ID.toString())
+            intentToEventDetail.putExtra("id",currentItem.id.toString())
             intentToEventDetail.putExtra("startTime",currentItem.startTime.toString())
             intentToEventDetail.putExtra("endTime",currentItem.endTime.toString())
+
+
+            intentToEventDetail.putExtra("registrationLink",currentItem.enrollmentLink)
+            intentToEventDetail.putExtra("imageLink",currentItem.imageLink)
 
             context.startActivity(intentToEventDetail)
 

@@ -1,5 +1,6 @@
 package com.example.eventmanagement.retrofit
 
+import android.graphics.Bitmap
 import com.example.eventmanagement.admin.userEventModel.AdminUserDTO
 import com.example.eventmanagement.admin.userEventModel.AdminUserModel
 import com.example.eventmanagement.admin.userManager.AdminUsersModel.AdminAllUsersModel
@@ -9,13 +10,16 @@ import com.example.eventmanagement.eventmodel.EventPostDTO
 import com.example.eventmanagement.eventmodel.PostEventModel
 import com.example.eventmanagement.managementrole.managementeventmodel.ManagementEventsModel
 import com.example.eventmanagement.users.AuthUser
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -71,6 +75,14 @@ interface EventsApi {
     fun deleteManagementEvent(@Path("ID") id:Long):Call<Void>
 
 
+    //image link generation
+    @Multipart
+    @POST("admin/events/image/upload/{id}")
+    fun postImageByAdmin(@Path("id") id:Long,@Part image:MultipartBody.Part):Call<Void>
+
+    @Multipart
+    @POST("user/events/image/upload/{id}")
+    fun postImageByManagement(@Path("id") id:Long,@Part image:MultipartBody.Part):Call<Void>
 
 
 

@@ -81,7 +81,7 @@ class EventDisplayerActivity : AppCompatActivity() {
             }
         }
 
-        GlobalScope.launch { getEvents() }
+//        GlobalScope.launch { getEvents() }
 
 
 
@@ -92,14 +92,20 @@ class EventDisplayerActivity : AppCompatActivity() {
 
 
     }
-//        override fun onResume() {
-//        super.onResume()
-//            getEvents()
-//
-//        }
+    override fun onResume() {
+        super.onResume()
+
+        allEvents.clear()
+        setDataTpoAdapter()
+
+            getEvents()
+
+        }
 
     private  fun refreshLayout() {
         binding.swipeRefreshGuestMode.setOnRefreshListener {
+            allEvents.clear()
+            setDataTpoAdapter()
 
             runBlocking {
                 val job = CoroutineScope(Dispatchers.IO).async {
@@ -129,10 +135,8 @@ class EventDisplayerActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val responseList = response.body()!!
                             allEvents.addAll(responseList.content)
-                            val adapter = EventsRecyclerView(allEvents,this@EventDisplayerActivity)
-                            binding.eventRecyclerView.adapter=adapter
-                            adapter.notifyDataSetChanged()
-                            binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
+                            setDataTpoAdapter()
+
 
 
 
@@ -162,6 +166,13 @@ class EventDisplayerActivity : AppCompatActivity() {
 
     }
 
+    private fun setDataTpoAdapter() {
+        val adapter = EventsRecyclerView(allEvents,this@EventDisplayerActivity)
+        binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
+        binding.eventRecyclerView.adapter=adapter
+        adapter.notifyDataSetChanged()
+    }
+
     @OptIn(DelicateCoroutinesApi::class)
     private fun getEvents() {
 
@@ -182,10 +193,7 @@ class EventDisplayerActivity : AppCompatActivity() {
                         totalPages = responseList.totalPages
 
 
-                        val adapter = EventsRecyclerView(allEvents,this@EventDisplayerActivity)
-                        binding.eventRecyclerView.adapter=adapter
-                        adapter.notifyDataSetChanged()
-                        binding.eventRecyclerView.layoutManager = LinearLayoutManager(this@EventDisplayerActivity)
+                        setDataTpoAdapter()
                         getNextPagesEvents()
                     }
                     else{

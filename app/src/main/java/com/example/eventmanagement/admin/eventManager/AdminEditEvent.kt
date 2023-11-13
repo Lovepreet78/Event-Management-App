@@ -2,22 +2,36 @@ package com.example.eventmanagement.admin.eventManager
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.eventmanagement.databinding.ActivityAdminEditEventBinding
 import com.example.eventmanagement.eventactivities.EventPostData
+import com.example.eventmanagement.eventactivities.imageSelectorBitmap.uriToBitmap
 import com.example.eventmanagement.eventmodel.EventPostDTO
 import com.example.eventmanagement.eventmodel.LocalTimeConverter
 import com.example.eventmanagement.retrofit.RetrofitClient
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.eclipse.jetty.http.MultiPartFormInputStream.MultiPart
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+
 
 class AdminEditEvent : AppCompatActivity() {
     lateinit var binding: ActivityAdminEditEventBinding
@@ -29,6 +43,8 @@ class AdminEditEvent : AppCompatActivity() {
     var isEndTimeChanged :Boolean = false
     var isStartDateChanged :Boolean = false
     var isEndDateChanged :Boolean = false
+    lateinit var imageUri:Uri
+    var bitmapImage : Bitmap?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminEditEventBinding.inflate(layoutInflater)
@@ -44,9 +60,13 @@ class AdminEditEvent : AppCompatActivity() {
         val endDay = intentFromEdit.getStringExtra("endDay")
         val startTime = intentFromEdit.getStringExtra("startTime")
         val endTime = intentFromEdit.getStringExtra("endTime")
-        val previousEvent = EventPostDTO(eventId,title,content,location,startDay,endDay,startTime,endTime)
+
+        val previousEvent = EventPostDTO(eventId,title,content,location,"","",startDay,endDay,startTime,endTime)
 
 
+        val contract = registerForActivityResult(ActivityResultContracts.GetContent()){
+            imageUri  = it!!
+        }
 
         binding.startDateSelector.setOnClickListener {
             openStartDialogDate()
@@ -64,6 +84,21 @@ class AdminEditEvent : AppCompatActivity() {
             openEndDialogTime()
             isEndTimeChanged=true
         }
+
+//        binding.imageSelector.setOnClickListener {
+//            contract.launch("Image/*")
+//            val selectedImageUri: Uri = imageString
+//            val bitmap = uriToBitmap(this, selectedImageUri)
+//
+//            if (bitmap != null) {
+//                bitmapImage = bitmap
+////                binding.imageConfirmed.visibility = View.VISIBLE
+//                var imageLink:String = imageToUrl(bitmapImage!!)
+//            } else {
+//
+//                Toast.makeText(this, "Image Selection failed , try again", Toast.LENGTH_SHORT).show()
+//            }
+//        }
 
 
 
@@ -83,9 +118,10 @@ class AdminEditEvent : AppCompatActivity() {
         val startTime = if(isStartTimeChanged) toSendStartTime else previousEvent.startTime()
         val endTime = if(isEndTimeChanged) toSendEndTime else previousEvent.endTime()
 
-        val editedEvent = EventPostDTO(eventId,title,content,location,startDay.toString(),endDay.toString(),startTime.toString(),endTime.toString())
+        val editedEvent = EventPostDTO(eventId,title,content,location,"","",startDay.toString(),endDay.toString(),startTime.toString(),endTime.toString())
         changeEventByAdmin(eventId,editedEvent)
     }
+
 
     private fun changeEventByAdmin(eventId: Long, editedEvent: EventPostDTO) {
             GlobalScope.launch {
@@ -112,7 +148,7 @@ class AdminEditEvent : AppCompatActivity() {
                             Toast.makeText(this@AdminEditEvent, "Not Posting $response", Toast.LENGTH_SHORT)
                                 .show()
                             Log.d("adminEdit","NotDoneeeeeeeeeeeeeeee ${response.errorBody()?.byteStream()
-                                ?.let { EventPostData.convertStreamToString(it) }}\n  $editedEvent")
+                                ?.let { EventPostData.convertStreamToString(it) }}\n  $response")
                         }
                     }
 
@@ -200,6 +236,18 @@ class AdminEditEvent : AppCompatActivity() {
             ,currentDate.year,currentDate.monthValue,currentDate.dayOfMonth)
         dialogDate.show()
     }
+
+//    fun uploadImage(){
+//        var filesDir = applicationContext.filesDir
+//        var file = File(filesDir,"Image.png")
+//        val inputStream = contentResolver.openInputStream(imageUri)
+//        val outputStream = FileOutputStream(file)
+//        inputStream!!.copyTo(outputStream)
+//        val mediaType = "image/*".toMediaTypeOrNull()
+//        val requestBody = asRe
+//
+//        var p = MultipartBody.Part.createFormData("profile",file.name,requestBody)
+//    }
 
 
 

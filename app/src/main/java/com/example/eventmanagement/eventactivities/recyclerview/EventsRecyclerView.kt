@@ -33,6 +33,10 @@ class EventsRecyclerView(private val events:List<EventDTO>, private val context:
             intentToEventDetail.putExtra("endDay",currentItem.endDay)
             intentToEventDetail.putExtra("location",currentItem.location)
 
+
+            intentToEventDetail.putExtra("registrationLink",currentItem.enrollmentLink)
+            intentToEventDetail.putExtra("imageLink",currentItem.imageLink)
+
             context.startActivity(intentToEventDetail)
 
 

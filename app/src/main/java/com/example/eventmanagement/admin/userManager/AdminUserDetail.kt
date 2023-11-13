@@ -81,8 +81,9 @@ class AdminUserDetail : AppCompatActivity() {
                     Toast.makeText(this@AdminUserDetail, "Role Changed to $role Successfully", Toast.LENGTH_SHORT).show()
                 }
                 else{
-//                    Log.d("fuckkk","${response.errorBody()?.byteStream()
-//                        ?.let { EventPostData.convertStreamToString(it) }}")
+                    Log.d("sattt","${response.errorBody()?.byteStream()
+                        ?.let { EventPostData.convertStreamToString(it) }}"+response.body().toString())
+
                     Toast.makeText(this@AdminUserDetail, "Failed to change Role", Toast.LENGTH_SHORT).show()
                 }
             }

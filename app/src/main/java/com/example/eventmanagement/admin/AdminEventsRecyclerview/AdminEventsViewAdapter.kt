@@ -31,10 +31,11 @@ class AdminEventsViewAdapter (private val events:List<AdminUserDTO>, private val
             intentToEventDetail.putExtra("location",currentItem.location)
             intentToEventDetail.putExtra("postedAt",currentItem.postedAt)
             intentToEventDetail.putExtra("postedBy",currentItem.postedBy)
-            intentToEventDetail.putExtra("id",currentItem.ID.toString())
+            intentToEventDetail.putExtra("id",currentItem.id.toString())
             intentToEventDetail.putExtra("startTime",currentItem.startTime.toString())
             intentToEventDetail.putExtra("endTime",currentItem.endTime.toString())
-
+            intentToEventDetail.putExtra("registrationLink",currentItem.enrollmentLink)
+            intentToEventDetail.putExtra("imageLink",currentItem.imageLink)
             context.startActivity(intentToEventDetail)
 
 

@@ -1,7 +1,7 @@
 package com.example.eventmanagement.admin.userManager.AdminUsersModel
 
 data class Content(
-    val ID: Long,
+    val id: Long,
     val accountExpired: Boolean,
     val accountLocked: Boolean,
     val credentialsExpired: Boolean,
