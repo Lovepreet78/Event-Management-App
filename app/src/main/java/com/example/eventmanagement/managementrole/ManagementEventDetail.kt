@@ -34,8 +34,13 @@ class ManagementEventDetail : AppCompatActivity() {
         val passId = id?.toLong()
         val registrationLink = intentFromEvent.getStringExtra("registrationLink")
         val imageLink = intentFromEvent.getStringExtra("imageLink")
-        Glide.with(this).load(imageLink).into(binding.imageView1);
-
+//        Glide.with(this).load(imageLink).into(binding.imageView1);
+        if(imageLink=="" || imageLink==null){
+            binding.imageView1.setImageResource(R.drawable.event_detail_image)
+        }
+        else{
+            Glide.with(this).load(imageLink).into(binding.imageView1);
+        }
         binding.ManagementDeleteEvent.setOnClickListener {
             deleteEvent(passId)
         }
@@ -52,8 +57,8 @@ class ManagementEventDetail : AppCompatActivity() {
         }
         binding.eventDetailTitle.text = title
         binding.eventDetailContent.text = content
-        binding.eventDetailStart.text = startDay
-        binding.eventDetailEnd.text = endDay
+        binding.eventDetailStart.text = "$startDay - $startTime"
+        binding.eventDetailEnd.text = "$endDay - $endTime"
         binding.eventDetailLocation.text = location
 
 

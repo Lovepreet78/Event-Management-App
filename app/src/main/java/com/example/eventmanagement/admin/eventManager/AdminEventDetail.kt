@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.example.eventmanagement.R
 import com.example.eventmanagement.databinding.ActivityAdminEventDetailBinding
 import com.example.eventmanagement.retrofit.RetrofitClient
 import retrofit2.Call
@@ -36,20 +37,25 @@ class AdminEventDetail : AppCompatActivity() {
         val passId = id?.toLong()
         val registrationLink = intentFromEvent.getStringExtra("registrationLink")
         val imageLink = intentFromEvent.getStringExtra("imageLink")
-        Glide.with(this).load(imageLink).into(binding.imageView1);
-//        Log.d("iszero",id.toString())
+//        Glide.with(this).load(imageLink).into(binding.imageView1);
+        if(imageLink=="" || imageLink==null){
+            binding.imageView1.setImageResource(R.drawable.event_detail_image)
+        }
+        else{
+            Glide.with(this).load(imageLink).into(binding.imageView1);
+        }
         binding.adminDeleteEvent.setOnClickListener{
 
             deleteEvent(passId)
 
         }
         binding.registerToEventButton.setOnClickListener {
-            if(registrationLink!="" && registrationLink!=null ) {
+            if(registrationLink!=null) {
                 intentToBrowser(registrationLink!!)
             }
             else
                 Toast.makeText(this, "No Registration", Toast.LENGTH_SHORT).show()
-            Log.d("reeee",registrationLink.toString())
+
         }
         binding.adminEditEvent.setOnClickListener {
             editEvent(passId,title,content,location,startDay,endDay,startTime,endTime,registrationLink,imageLink)
@@ -57,8 +63,8 @@ class AdminEventDetail : AppCompatActivity() {
 
         binding.eventDetailTitle.text = title
         binding.eventDetailContent.text = content
-        binding.eventDetailStart.text = startDay
-        binding.eventDetailEnd.text = endDay
+        binding.eventDetailStart.text = "$startDay - $startTime"
+        binding.eventDetailEnd.text = "$endDay - $endTime"
         binding.eventDetailLocation.text = location
         binding.eventPostedAt.text = postedAt
         binding.eventPostedBy.text = postedBy

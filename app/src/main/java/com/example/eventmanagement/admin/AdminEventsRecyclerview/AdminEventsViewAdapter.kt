@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.eventmanagement.R
 import com.example.eventmanagement.admin.eventManager.AdminEventDetail
 import com.example.eventmanagement.admin.userEventModel.AdminUserDTO
@@ -22,9 +24,15 @@ class AdminEventsViewAdapter (private val events:List<AdminUserDTO>, private val
         val currentItem = events[position]
         holder.eventItemTitle.text = currentItem.title
         holder.eventItemDescription.text = currentItem.content
+        if(currentItem.imageLink=="" || currentItem.imageLink==null){
+            holder.eventImageView.setImageResource(R.drawable.event_detail_image)
+        }
+        else{
+            Glide.with(context).load(currentItem.imageLink).into(holder.eventImageView);
+        }
 
         holder.itemView.setOnClickListener {
-            Log.d("reep",currentItem.enrollmentLink)
+
             val intentToEventDetail = Intent(context, AdminEventDetail::class.java)
             intentToEventDetail.putExtra("title",holder.eventItemTitle.text.toString())
             intentToEventDetail.putExtra("content",holder.eventItemDescription.text.toString())
@@ -54,6 +62,6 @@ class AdminEventsViewAdapter (private val events:List<AdminUserDTO>, private val
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val eventItemTitle: TextView = itemView.findViewById(R.id.eventItemTitle)
         val eventItemDescription: TextView = itemView.findViewById(R.id.eventItemDescription)
-
+        val eventImageView: ImageView = itemView.findViewById(R.id.imageView)
     }
 }

@@ -5,8 +5,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.eventmanagement.R
 import com.example.eventmanagement.managementrole.ManagementEventDetail
 import com.example.eventmanagement.managementrole.managementeventmodel.ManagementEventDTO
@@ -21,6 +23,12 @@ class ManagementEventAdapter(private val events:List<ManagementEventDTO>, privat
         val currentItem = events[position]
         holder.eventItemTitle.text = currentItem.title
         holder.eventItemDescription.text = currentItem.content
+        if(currentItem.imageLink=="" || currentItem.imageLink==null){
+            holder.eventImageView.setImageResource(R.drawable.event_detail_image)
+        }
+        else{
+            Glide.with(context).load(currentItem.imageLink).into(holder.eventImageView);
+        }
 
         holder.itemView.setOnClickListener {
             val intentToEventDetail = Intent(context, ManagementEventDetail::class.java)
@@ -30,10 +38,8 @@ class ManagementEventAdapter(private val events:List<ManagementEventDTO>, privat
             intentToEventDetail.putExtra("endDay",currentItem.endDay)
             intentToEventDetail.putExtra("location",currentItem.location)
             intentToEventDetail.putExtra("id",currentItem.id.toString())
-            intentToEventDetail.putExtra("startTime",currentItem.startTime.toString())
-            intentToEventDetail.putExtra("endTime",currentItem.endTime.toString())
-
-
+            intentToEventDetail.putExtra("startTime",currentItem.startTime)
+            intentToEventDetail.putExtra("endTime",currentItem.endTime)
             intentToEventDetail.putExtra("registrationLink",currentItem.enrollmentLink)
             intentToEventDetail.putExtra("imageLink",currentItem.imageLink)
 
@@ -51,7 +57,7 @@ class ManagementEventAdapter(private val events:List<ManagementEventDTO>, privat
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val eventItemTitle: TextView = itemView.findViewById(R.id.eventItemTitle)
         val eventItemDescription: TextView = itemView.findViewById(R.id.eventItemDescription)
-
+        val eventImageView: ImageView = itemView.findViewById(R.id.imageView)
     }
 
 }

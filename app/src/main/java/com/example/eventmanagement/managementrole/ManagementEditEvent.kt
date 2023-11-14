@@ -100,7 +100,7 @@ class ManagementEditEvent : AppCompatActivity() {
                     if (response.isSuccessful) {
                         Toast.makeText(
                             this@ManagementEditEvent,
-                            "Event post Successfully",
+                            "Event Changed Successfully",
                             Toast.LENGTH_SHORT
                         ).show()
                         Log.d("adminEdit",editedEvent.toString())
@@ -111,7 +111,9 @@ class ManagementEditEvent : AppCompatActivity() {
 
 
 
-                        Toast.makeText(this@ManagementEditEvent, "Not Posting $response", Toast.LENGTH_SHORT)
+//                        Toast.makeText(this@ManagementEditEvent, "Not Posting $response", Toast.LENGTH_SHORT)
+//                            .show()
+                        Toast.makeText(this@ManagementEditEvent, "Something Wrong", Toast.LENGTH_SHORT)
                             .show()
                         Log.d("adminEdit","NotDoneeeeeeeeeeeeeeee ${response.errorBody()?.byteStream()
                             ?.let { EventPostData.convertStreamToString(it) }}\n  $editedEvent")
@@ -120,7 +122,7 @@ class ManagementEditEvent : AppCompatActivity() {
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     Log.d("adminEdit","FailDoneeeeeeeeeeeeeeee $call")
-                    Toast.makeText(this@ManagementEditEvent, "Something Went Wrong Post", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@ManagementEditEvent, "Something Went Wrong !!", Toast.LENGTH_SHORT)
                         .show()
 
                 }
