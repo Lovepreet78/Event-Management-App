@@ -21,6 +21,7 @@
 
 
             <TextView
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Title"
@@ -38,6 +39,7 @@
             <!-- Event Description -->
             <TextView
                 android:layout_marginTop="@dimen/_5sdp"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Description"
@@ -56,6 +58,7 @@
             <!-- Event Location -->
             <TextView
                 android:layout_marginTop="@dimen/_5sdp"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Location"
@@ -71,6 +74,7 @@
                 android:hint="Enter Event Location"/>
             <TextView
                 android:textStyle="bold"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Registration Link (Optional)"
@@ -89,6 +93,7 @@
             <!-- Event Date and Time -->
             <TextView
                 android:layout_marginTop="@dimen/_5sdp"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Date and Time"

@@ -151,10 +151,11 @@ class EventPostData : AppCompatActivity() {
     private fun openStartDialogTime() {
         val dialogTime = TimePickerDialog(this,
 
-            { _, p1, p2 -> run{ binding.startTimeShower.text = "$p1:$p2"
+            { _, p1, p2 -> run{
                 val startLocalTime= LocalTimeConverter.convertStringTOLocalTIme(p1,p2,0,0,0)
-                Log.d("localtest1",startLocalTime.toString())
+
                 toSendStartTime = startLocalTime
+                binding.startTimeShower.text = startLocalTime.toString()
 
 
             } },12,0,true  )
@@ -167,9 +168,9 @@ class EventPostData : AppCompatActivity() {
 
 
         val dialogDate = DatePickerDialog(this,
-            { _, p1, p2, p3 -> run{ binding.startDateShower.text = "$p1-$p2-$p3" }
+            { _, p1, p2, p3 -> run{  }
                 toSendStartDate = LocalTimeConverter.intToLocalDate(p1,p2,p3)
-
+                binding.startDateShower.text = toSendStartDate.toString()
             }
             ,currentDate.year,currentDate.monthValue,currentDate.dayOfMonth)
         dialogDate.show()
@@ -177,10 +178,12 @@ class EventPostData : AppCompatActivity() {
     private fun openEndDialogTime() {
         val dialogTime = TimePickerDialog(this,
 
-            { _, p1, p2 -> run{ binding.endTimeShower.text = "$p1:$p2"
+            { _, p1, p2 -> run{
                 val startLocalTime= LocalTimeConverter.convertStringTOLocalTIme(p1,p2,0,0,0)
                 Log.d("localtest1",startLocalTime.toString())
                 toSendEndTime = startLocalTime
+                binding.endTimeShower.text = toSendEndTime.toString()
+
             } },12,0,true  )
 
         dialogTime.show()
@@ -191,8 +194,9 @@ class EventPostData : AppCompatActivity() {
 
 
         val dialogDate = DatePickerDialog(this,
-            { _, p1, p2, p3 -> run{ binding.endDateShower.text = "$p1-$p2-$p3"
+            { _, p1, p2, p3 -> run{
                 toSendEndDate = LocalTimeConverter.intToLocalDate(p1,p2,p3)
+                binding.endDateShower.text = toSendEndDate.toString()
             }}
             ,currentDate.year,currentDate.monthValue,currentDate.dayOfMonth)
         dialogDate.show()
