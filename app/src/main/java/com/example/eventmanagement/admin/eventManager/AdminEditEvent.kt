@@ -1,11 +1,16 @@
 package com.example.eventmanagement.admin.eventManager
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.FileUtils
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -31,6 +36,7 @@ import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+import java.io.InputStream
 
 
 class AdminEditEvent : AppCompatActivity() {
@@ -45,6 +51,13 @@ class AdminEditEvent : AppCompatActivity() {
     var isEndDateChanged :Boolean = false
     lateinit var imageUri:Uri
     var bitmapImage : Bitmap?=null
+
+
+
+
+    private var selectedImageUri: Uri? = null
+    private var eventIdForImage :Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminEditEventBinding.inflate(layoutInflater)
@@ -60,8 +73,11 @@ class AdminEditEvent : AppCompatActivity() {
         val endDay = intentFromEdit.getStringExtra("endDay")
         val startTime = intentFromEdit.getStringExtra("startTime")
         val endTime = intentFromEdit.getStringExtra("endTime")
+        val registrationLink = intentFromEdit.getStringExtra("registrationLink")
+        val imageLink = intentFromEdit.getStringExtra("imageLink")
+        eventIdForImage= eventId.toLong()
 
-        val previousEvent = EventPostDTO(eventId,title,content,location,"","",startDay,endDay,startTime,endTime)
+        val previousEvent = EventPostDTO(eventId,title,content,location,registrationLink,imageLink,startDay,endDay,startTime,endTime)
 
 
         val contract = registerForActivityResult(ActivityResultContracts.GetContent()){
@@ -102,23 +118,110 @@ class AdminEditEvent : AppCompatActivity() {
 
 
 
-        updateItems(eventId,title,content,location,startTime,startDay,endTime,endDay)
+        updateItems(eventId,title,content,location,startTime,startDay,endTime,endDay,registrationLink,imageLink)
         binding.SubmitNewEvent.setOnClickListener {
             updateEvent(eventId,previousEvent)
         }
 
+
+        binding.imageSelector.setOnClickListener {
+            pickImage()
+        }
+
+
+
+
+
+
+
     }
+    val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Image successfully picked
+                val data: Intent? = result.data
+                selectedImageUri = data?.data
+                // Now, you can upload the image
+                uploadImage()
+            }
+        }
+    private fun pickImage() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        pickImageLauncher.launch(intent)
+    }
+    private fun getFile(context: Context, uri: Uri): File {
+        val contentResolver = context.contentResolver
+        val file = File(context.cacheDir, "temp_image_file")
+        file.createNewFile()
+
+        try {
+            val inputStream: InputStream? = contentResolver.openInputStream(uri)
+            inputStream?.use { input ->
+                val outputStream = FileOutputStream(file)
+                outputStream.use { output ->
+                    val buffer = ByteArray(4 * 1024) // buffer size
+                    while (true) {
+                        val byteCount = input.read(buffer)
+                        if (byteCount < 0) break
+                        output.write(buffer, 0, byteCount)
+                    }
+                    output.flush()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return file
+    }
+    private fun uploadImage() {
+        // Check if an image is selected
+        selectedImageUri?.let { uri ->
+            // Get the file name and create a request body
+            val file = getFile(this, uri)
+            val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+            val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+            // Call the API for image upload
+            val apiService = RetrofitClient.create()
+            val call: Call<Void> = apiService.postImageByAdmin(eventIdForImage, body)
+
+            // Enqueue the call
+            call.enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@AdminEditEvent, "Image uploaded successfully", Toast.LENGTH_SHORT).show()
+                        // Image uploaded successfully
+                        Log.d("ImageUpload", "Image uploaded successfully")
+                    } else {
+                        // Handle the error
+                        Log.e("ImageUpload", "Image upload failed. ${
+                            response.errorBody()?.byteStream().toString()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    // Handle the failure
+                    Log.e("ImageUpload", "Image upload failed!!. ${t.message}")
+                }
+            })
+        }
+    }
+
 
     private fun updateEvent(eventId: Long, previousEvent: EventPostDTO) {
         val title = binding.editTextTitle.text.toString()
         val content = binding.editTextDescription.text.toString()
         val location = binding.editTextLocation.text.toString()
+        val registrationLink = binding.editTextEventLink.text.toString()
+        val imageLink = previousEvent.imageLink()
+
         val startDay = if(isStartDateChanged) toSendStartDate else previousEvent.startDay()
         val endDay = if(isEndDateChanged) toSendEndDate else previousEvent.endDay()
         val startTime = if(isStartTimeChanged) toSendStartTime else previousEvent.startTime()
         val endTime = if(isEndTimeChanged) toSendEndTime else previousEvent.endTime()
 
-        val editedEvent = EventPostDTO(eventId,title,content,location,"","",startDay.toString(),endDay.toString(),startTime.toString(),endTime.toString())
+        val editedEvent = EventPostDTO(eventId,title,content,location,registrationLink,imageLink,startDay.toString(),endDay.toString(),startTime.toString(),endTime.toString())
         changeEventByAdmin(eventId,editedEvent)
     }
 
@@ -174,7 +277,9 @@ class AdminEditEvent : AppCompatActivity() {
         startTime: String?,
         startDay: String?,
         endTime: String?,
-        endDay: String?
+        endDay: String?,
+        registrationLink:String?,
+        imageLink:String?
     ) {
         binding.editTextTitle.setText(title)
         binding.editTextDescription.setText(content)
@@ -183,6 +288,8 @@ class AdminEditEvent : AppCompatActivity() {
         binding.endTimeShower.text = endTime
         binding.startDateShower.text = startDay
         binding.endDateShower.text = endDay
+        binding.editTextEventLink.setText(registrationLink)
+
 
 
     }

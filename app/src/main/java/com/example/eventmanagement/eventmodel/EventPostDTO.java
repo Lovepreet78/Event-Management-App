@@ -31,8 +31,8 @@ public final class EventPostDTO {
         this.endDay = endDay.toString();
 //        this.startTime = startTime.format( DateTimeFormatter.ofPattern("HH:mm:ss"));
 //        this.endTime = endTime.format( DateTimeFormatter.ofPattern("HH:mm:ss"));
-//        this.enrollmentLink=enrollmentLink;
-//        this.imageLink = imageLink;
+        this.enrollmentLink=enrollmentLink;
+        this.imageLink = imageLink;
         this.startTime = startTime;
         this.endTime = endTime;
     }

@@ -2,6 +2,7 @@ package com.example.eventmanagement.admin.AdminEventsRecyclerview
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ class AdminEventsViewAdapter (private val events:List<AdminUserDTO>, private val
         holder.eventItemDescription.text = currentItem.content
 
         holder.itemView.setOnClickListener {
+            Log.d("reep",currentItem.enrollmentLink)
             val intentToEventDetail = Intent(context, AdminEventDetail::class.java)
             intentToEventDetail.putExtra("title",holder.eventItemTitle.text.toString())
             intentToEventDetail.putExtra("content",holder.eventItemDescription.text.toString())
@@ -37,6 +39,7 @@ class AdminEventsViewAdapter (private val events:List<AdminUserDTO>, private val
             intentToEventDetail.putExtra("registrationLink",currentItem.enrollmentLink)
             intentToEventDetail.putExtra("imageLink",currentItem.imageLink)
             context.startActivity(intentToEventDetail)
+
 
 
 

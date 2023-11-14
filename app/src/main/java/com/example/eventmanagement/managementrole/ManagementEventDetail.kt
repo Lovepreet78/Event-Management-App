@@ -40,7 +40,7 @@ class ManagementEventDetail : AppCompatActivity() {
             deleteEvent(passId)
         }
         binding.ManagementEditEvent.setOnClickListener {
-            editEvent(passId,title,content,location,startDay,endDay,startTime,endTime)
+            editEvent(passId,title,content,location,startDay,endDay,startTime,endTime,registrationLink,imageLink)
         }
 
         binding.registerToEventButton.setOnClickListener {
@@ -79,7 +79,9 @@ class ManagementEventDetail : AppCompatActivity() {
         startDay: String?,
         endDay: String?,
         startTime: String?,
-        endTime: String?
+        endTime: String?,
+        registrationLink:String?,
+        imageLink:String?
     ) {
         val intentToEditEvent  = Intent(this@ManagementEventDetail, ManagementEditEvent::class.java)
         intentToEditEvent.putExtra("eventId",passId)
@@ -90,6 +92,9 @@ class ManagementEventDetail : AppCompatActivity() {
         intentToEditEvent.putExtra("endDay",endDay)
         intentToEditEvent.putExtra("startTime",startTime)
         intentToEditEvent.putExtra("endTime",endTime)
+        intentToEditEvent.putExtra("registrationLink",registrationLink)
+        intentToEditEvent.putExtra("imageLink",imageLink)
+
         startActivity(intentToEditEvent)
         finish()
     }

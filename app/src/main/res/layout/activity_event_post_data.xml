@@ -80,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="Event Registration Link (Optional)"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:id="@+id/registrtionLink"
                 android:textSize="18sp"/>
 
             <EditText

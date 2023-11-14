@@ -81,7 +81,7 @@ class EventDisplayerActivity : AppCompatActivity() {
             }
         }
 
-//        GlobalScope.launch { getEvents() }
+        GlobalScope.launch { getEvents() }
 
 
 
@@ -92,15 +92,15 @@ class EventDisplayerActivity : AppCompatActivity() {
 
 
     }
-    override fun onResume() {
-        super.onResume()
-
-        allEvents.clear()
-        setDataTpoAdapter()
-
-            getEvents()
-
-        }
+//    override fun onResume() {
+//        super.onResume()
+//
+//        allEvents.clear()
+//        setDataTpoAdapter()
+//
+//            getEvents()
+//
+//        }
 
     private  fun refreshLayout() {
         binding.swipeRefreshGuestMode.setOnRefreshListener {

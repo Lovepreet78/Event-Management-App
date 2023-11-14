@@ -45,9 +45,10 @@ class ManagementEditEvent : AppCompatActivity() {
         val endDay = intentFromEdit.getStringExtra("endDay")
         val startTime = intentFromEdit.getStringExtra("startTime")
         val endTime = intentFromEdit.getStringExtra("endTime")
-        val previousEvent = EventPostDTO(eventId,title,content,location,null,null,startDay,endDay,startTime,endTime)
-        updateItems(eventId,title,content,location,startTime,startDay,endTime,endDay)
-        // TODO:
+        val registrationLink = intentFromEdit.getStringExtra("registrationLink")
+        val imageLink = intentFromEdit.getStringExtra("imageLink")
+        val previousEvent = EventPostDTO(eventId,title,content,location,registrationLink,imageLink,startDay,endDay,startTime,endTime)
+        updateItems(eventId,title,content,location,startTime,startDay,endTime,endDay,registrationLink,imageLink)
 
         binding.startDateSelector.setOnClickListener {
             openStartDialogDate()
@@ -77,13 +78,15 @@ class ManagementEditEvent : AppCompatActivity() {
         val title = binding.editTextTitle.text.toString()
         val content = binding.editTextDescription.text.toString()
         val location = binding.editTextLocation.text.toString()
+        val registrationLink = binding.editTextEventLink.text.toString()
+        val imageLink = previousEvent.imageLink()
 
         val startDay = if(isStartDateChanged) toSendStartDate else previousEvent.startDay()
         val endDay = if(isEndDateChanged) toSendEndDate else previousEvent.endDay()
         val startTime = if(isStartTimeChanged) toSendStartTime else previousEvent.startTime()
         val endTime = if(isEndTimeChanged) toSendEndTime else previousEvent.endTime()
 
-        val editedEvent = EventPostDTO(eventId,title,content,location,null,null,startDay.toString(),endDay.toString(),startTime.toString(),endTime.toString())
+        val editedEvent = EventPostDTO(eventId,title,content,location,registrationLink,imageLink,startDay.toString(),endDay.toString(),startTime.toString(),endTime.toString())
         changeEventByManagement(eventId,editedEvent)
     }
     private fun changeEventByManagement(eventId: Long, editedEvent: EventPostDTO) {
@@ -139,7 +142,9 @@ class ManagementEditEvent : AppCompatActivity() {
         startTime: String?,
         startDay: String?,
         endTime: String?,
-        endDay: String?
+        endDay: String?,
+        registrationLink:String?,
+        imageLink:String?
     ) {
         binding.editTextTitle.setText(title)
         binding.editTextDescription.setText(content)
@@ -148,6 +153,7 @@ class ManagementEditEvent : AppCompatActivity() {
         binding.endTimeShower.text = endTime
         binding.startDateShower.text = startDay
         binding.endDateShower.text = endDay
+        binding.editTextEventLink.setText(registrationLink)
 
 
     }

@@ -88,10 +88,12 @@ class EventPostData : AppCompatActivity() {
             val endDate = binding.endDateShower.text.toString()
 
             val imageLink: String? = null
-            val enrollmentLink: String? = null
+//            val enrollmentLink: String? = binding.registrtionLink.text.toString()
+            val enrollmentLink: String = binding.editTextEventLink.text.toString()
 
 
-            val e1 = EventPostDTO(100,eventTitle,eventDescription,eventLocation,imageLink,enrollmentLink,toSendStartDate.toString(),toSendEndDate.toString(),toSendStartTime.toString(),toSendEndTime.toString());
+
+            val e1 = EventPostDTO(100,eventTitle,eventDescription,eventLocation,enrollmentLink,imageLink,toSendStartDate.toString(),toSendEndDate.toString(),toSendStartTime.toString(),toSendEndTime.toString());
 
 
             submitNewEvent(e1)
@@ -102,12 +104,7 @@ class EventPostData : AppCompatActivity() {
 
     }
 
-    private fun imageToUrl(bitmapImageL: Bitmap): String {
 
-        return ""
-
-
-    }
 
 
     private fun submitNewEvent(event: EventPostDTO) {
@@ -124,7 +121,7 @@ class EventPostData : AppCompatActivity() {
                             "Event post Successfully",
                             Toast.LENGTH_SHORT
                         ).show()
-                        Log.d("posttest",event.toString())
+                    Log.d("realme",event.toString())
 
 
                     }
@@ -134,13 +131,13 @@ class EventPostData : AppCompatActivity() {
 
                         Toast.makeText(this@EventPostData, "Not Posting $response", Toast.LENGTH_SHORT)
                             .show()
-                        Log.d("posttest","NotDoneeeeeeeeeeeeeeee ${response.errorBody()?.byteStream()
+                        Log.e("posttest","NotDoneeeeeeeeeeeeeeee ${response.errorBody()?.byteStream()
                             ?.let { convertStreamToString(it) }}\n  $event")
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Log.d("posttt","FailDoneeeeeeeeeeeeeeee $call")
+                    Log.e("posttt","FailDoneeeeeeeeeeeeeeee $call")
                     Toast.makeText(this@EventPostData, "Something Went Wrong Post", Toast.LENGTH_SHORT)
                         .show()
                     throw t

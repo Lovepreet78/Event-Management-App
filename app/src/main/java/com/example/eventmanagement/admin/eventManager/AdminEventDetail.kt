@@ -44,14 +44,15 @@ class AdminEventDetail : AppCompatActivity() {
 
         }
         binding.registerToEventButton.setOnClickListener {
-            if(registrationLink!=null) {
+            if(registrationLink!="" && registrationLink!=null ) {
                 intentToBrowser(registrationLink!!)
             }
             else
                 Toast.makeText(this, "No Registration", Toast.LENGTH_SHORT).show()
+            Log.d("reeee",registrationLink.toString())
         }
         binding.adminEditEvent.setOnClickListener {
-            editEvent(passId,title,content,location,startDay,endDay,startTime,endTime)
+            editEvent(passId,title,content,location,startDay,endDay,startTime,endTime,registrationLink,imageLink)
         }
 
         binding.eventDetailTitle.text = title
@@ -74,7 +75,10 @@ class AdminEventDetail : AppCompatActivity() {
         startDay: String?,
         endDay: String?,
         startTime: String?,
-        endTime: String?
+        endTime: String?,
+        registrationLink:String?,
+        imageLink:String?
+
     ) {
         val intentToEditEvent  = Intent(this@AdminEventDetail, AdminEditEvent::class.java)
         intentToEditEvent.putExtra("eventId",passId)
@@ -85,6 +89,8 @@ class AdminEventDetail : AppCompatActivity() {
         intentToEditEvent.putExtra("endDay",endDay)
         intentToEditEvent.putExtra("startTime",startTime)
         intentToEditEvent.putExtra("endTime",endTime)
+        intentToEditEvent.putExtra("registrationLink",registrationLink)
+        intentToEditEvent.putExtra("imageLink",imageLink)
         startActivity(intentToEditEvent)
         finish()
     }
