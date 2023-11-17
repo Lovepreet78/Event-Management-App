@@ -1,12 +1,16 @@
 package com.example.eventmanagement.eventactivities
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.eventmanagement.R
 import com.example.eventmanagement.admin.eventManager.AdminShowAllEvents
 import com.example.eventmanagement.constants.CurrentUserRole
 
@@ -15,6 +19,7 @@ import com.example.eventmanagement.eventmodel.EventDTO
 
 import com.example.eventmanagement.eventmodel.EventModel
 import com.example.eventmanagement.eventactivities.recyclerview.EventsRecyclerView
+import com.example.eventmanagement.intialactivity.HomeActivity
 import com.example.eventmanagement.managementrole.ManagementShowEvents
 import com.example.eventmanagement.retrofit.RetrofitClient
 import kotlinx.coroutines.CoroutineScope
@@ -209,5 +214,25 @@ class EventDisplayerActivity : AppCompatActivity() {
 
 
 
+    }
+    @Override
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_item,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val itemId = item.itemId
+        if(itemId==R.id.logoutMenu){
+            val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("username", null)
+            editor.putString("password", null)
+            editor.apply()
+            val intentToHomeScreen  = Intent(this@EventDisplayerActivity,HomeActivity::class.java)
+            startActivity(intentToHomeScreen)
+            finish()
+        }
+        return true
     }
 }

@@ -40,92 +40,94 @@ class HomeActivity : AppCompatActivity() {
         binding.loginButtonHome.setOnClickListener {
             val intent = Intent(this@HomeActivity,LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
         binding.signUpButtonHome.setOnClickListener {
             val intent = Intent(this@HomeActivity,SignUpActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
-        binding.savedLoginButtonHome.setOnClickListener {
-            binding.progressBarHome.visibility = View.VISIBLE
-            val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-            val savedUsername = sharedPreferences.getString("username", null)
-            val savedPassword = sharedPreferences.getString("password", null)
-
-            if (savedUsername != null && savedPassword != null) {
-                if(savedUsername.isNotBlank() && savedPassword.isNotEmpty()){
-                    loginUser(savedUsername,savedPassword)
-                }
-                binding.progressBarHome.visibility = View.GONE
-
-            }
-            else{
-                binding.progressBarHome.visibility = View.GONE
-                Toast.makeText(this@HomeActivity, "No Saved Login Info", Toast.LENGTH_SHORT).show()
-            }
-        }
+//        binding.savedLoginButtonHome.setOnClickListener {
+//            binding.progressBarHome.visibility = View.VISIBLE
+//            val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+//            val savedUsername = sharedPreferences.getString("username", null)
+//            val savedPassword = sharedPreferences.getString("password", null)
+//
+//            if (savedUsername != null && savedPassword != null) {
+//                if(savedUsername.isNotBlank() && savedPassword.isNotEmpty()){
+//                    loginUser(savedUsername,savedPassword)
+//                }
+//                binding.progressBarHome.visibility = View.GONE
+//
+//            }
+//            else{
+//                binding.progressBarHome.visibility = View.GONE
+//                Toast.makeText(this@HomeActivity, "No Saved Login Info", Toast.LENGTH_SHORT).show()
+//            }
+//        }
     }
-    private fun loginUser(userName: String, password: String) {
-
-        job?.cancel()
-
-
-        job = CoroutineScope(Dispatchers.Main).launch {
-            binding.progressBarHome.visibility=View.VISIBLE
-            withContext(Dispatchers.IO)
-            {
-                val apiService = RetrofitClient.create()
-                val call = apiService.loginUser(userName, password)
-                call.enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-
-
-                        if (response.isSuccessful) {
-                            Toast.makeText(
-                                this@HomeActivity,
-                                "User Login Successfully",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            val cookie = response.headers().get("Set-cookie").toString()
-                            val userRole = response.headers().get("roles").toString()
-
-                            Cookie.cookie = cookie
-
-                            CurrentUserRole.currentUserRole = userRole
-
-                            val intentToEvents =
-                                Intent(this@HomeActivity, EventDisplayerActivity::class.java)
-                            startActivity(intentToEvents)
-
-                            finish()
-
-                        } else {
-
-
-                            Toast.makeText(
-                                this@HomeActivity,
-                                "Wrong Credential!!",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-
-                        Toast.makeText(
-                            this@HomeActivity,
-                            "Something Went Wrong, Try Again",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-
-                    }
-                })
-            }
-            binding.progressBarHome.visibility=View.GONE
-        }
-
-
-    }
+//    private fun loginUser(userName: String, password: String) {
+//
+//        job?.cancel()
+//
+//
+//        job = CoroutineScope(Dispatchers.Main).launch {
+//            binding.progressBarHome.visibility=View.VISIBLE
+//            withContext(Dispatchers.IO)
+//            {
+//                val apiService = RetrofitClient.create()
+//                val call = apiService.loginUser(userName, password)
+//                call.enqueue(object : Callback<Void> {
+//                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+//
+//
+//                        if (response.isSuccessful) {
+//                            Toast.makeText(
+//                                this@HomeActivity,
+//                                "User Login Successfully",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                            val cookie = response.headers().get("Set-cookie").toString()
+//                            val userRole = response.headers().get("roles").toString()
+//
+//                            Cookie.cookie = cookie
+//
+//                            CurrentUserRole.currentUserRole = userRole
+//
+//                            val intentToEvents =
+//                                Intent(this@HomeActivity, EventDisplayerActivity::class.java)
+//                            startActivity(intentToEvents)
+//
+//                            finish()
+//
+//                        } else {
+//
+//
+//                            Toast.makeText(
+//                                this@HomeActivity,
+//                                "Wrong Credential!!",
+//                                Toast.LENGTH_SHORT
+//                            )
+//                                .show()
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<Void>, t: Throwable) {
+//
+//                        Toast.makeText(
+//                            this@HomeActivity,
+//                            "Something Went Wrong, Try Again",
+//                            Toast.LENGTH_SHORT
+//                        )
+//                            .show()
+//
+//                    }
+//                })
+//            }
+//            binding.progressBarHome.visibility=View.GONE
+//        }
+//
+//
+//    }
 }

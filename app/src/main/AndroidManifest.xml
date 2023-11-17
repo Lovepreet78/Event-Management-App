@@ -18,8 +18,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
-            android:name=".imageUploader.ImageTestDummy"
-            android:exported="false" />
+            android:name=".intialactivity.SplashActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".managementrole.ManagementEditEvent"
             android:exported="false" />
@@ -64,13 +71,7 @@
             android:exported="false" />
         <activity
             android:name=".intialactivity.HomeActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true"/>
     </application>
 
 </manifest>
