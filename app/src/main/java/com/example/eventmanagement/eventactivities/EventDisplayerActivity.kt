@@ -3,13 +3,11 @@ package com.example.eventmanagement.eventactivities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eventmanagement.admin.eventManager.AdminShowAllEvents
-import com.example.eventmanagement.admin.userManager.AdminShowAllUsers
 import com.example.eventmanagement.constants.CurrentUserRole
 
 import com.example.eventmanagement.databinding.ActivityEventDisplayerBinding
@@ -24,7 +22,6 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
@@ -51,6 +48,8 @@ class EventDisplayerActivity : AppCompatActivity() {
 
 
         binding.createNewEvents.setOnClickListener {
+//            val intentDummy = Intent(this@EventDisplayerActivity,ImageTestDummy::class.java)
+//            startActivity(intentDummy)
             if(binding.managementPanel.visibility==View.GONE && binding.AdminPanel.visibility==View.GONE){
                 binding.managementPanel.visibility=View.VISIBLE
                 binding.AdminPanel.visibility=View.VISIBLE

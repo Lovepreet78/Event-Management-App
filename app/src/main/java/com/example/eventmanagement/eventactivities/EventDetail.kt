@@ -42,6 +42,7 @@ class EventDetail : AppCompatActivity() {
         }
 
         binding.registerToEventButton.setOnClickListener {
+
             if(registrationLink!=null) {
                 intentToBrowser(registrationLink!!)
             }
@@ -54,7 +55,10 @@ class EventDetail : AppCompatActivity() {
     }
 
     private fun intentToBrowser(regLink: String) {
-        if(regLink=="") return
+        if(regLink=="") {
+            Toast.makeText(this@EventDetail, "No Registration", Toast.LENGTH_SHORT).show()
+
+        }
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(regLink))
 
         if (intent.resolveActivity(packageManager) != null) {

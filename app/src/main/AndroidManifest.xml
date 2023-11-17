@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +17,9 @@
         android:theme="@style/Base.Theme.EventManagement"
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
+        <activity
+            android:name=".imageUploader.ImageTestDummy"
+            android:exported="false" />
         <activity
             android:name=".managementrole.ManagementEditEvent"
             android:exported="false" />

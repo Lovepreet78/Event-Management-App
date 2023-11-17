@@ -2,22 +2,36 @@ package com.example.eventmanagement.managementrole
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.eventmanagement.R
 import com.example.eventmanagement.databinding.ActivityAdminEditEventBinding
 import com.example.eventmanagement.databinding.ActivityManagementEditEventBinding
 import com.example.eventmanagement.eventactivities.EventPostData
 import com.example.eventmanagement.eventmodel.EventPostDTO
 import com.example.eventmanagement.eventmodel.LocalTimeConverter
+import com.example.eventmanagement.imageUploader.ImageUploader1
 import com.example.eventmanagement.retrofit.RetrofitClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -31,6 +45,20 @@ class ManagementEditEvent : AppCompatActivity() {
     var isEndTimeChanged :Boolean = false
     var isStartDateChanged :Boolean = false
     var isEndDateChanged :Boolean = false
+
+    private lateinit var imgUri: Uri
+    private var imageUrl =""
+    private var job: Job?=null
+    private val contract = registerForActivityResult(ActivityResultContracts.GetContent()){
+        imgUri = it!!
+        if(imgUri!=null) {
+            binding.imageViewAdminEdit.setImageURI(imgUri)
+            binding.imageLayout.visibility = View.VISIBLE
+        }
+        else{
+            Toast.makeText(this, "Image can't be selected", Toast.LENGTH_SHORT).show()
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityManagementEditEventBinding.inflate(layoutInflater)
@@ -67,7 +95,39 @@ class ManagementEditEvent : AppCompatActivity() {
             isEndTimeChanged=true
         }
 
+        binding.imageSelector.setOnClickListener {
+            contract.launch("image/*")
+        }
+        binding.imageConfirmed.setOnClickListener {
+            val imageUploader = ImageUploader1()
+//            var path = imageUploader.getImageFilePath(this,imgUri)
+            var path = getRealPathFromURI(imgUri!!,this)
+            if(path!=null){
+                job?.cancel()
+                binding.imageProgressBar.visibility= View.VISIBLE
 
+
+                job = CoroutineScope(Dispatchers.Main).launch{
+                    withContext(Dispatchers.IO){
+
+                        imageUploader.uploadImage(path!!)
+                        imageUrl = imageUploader.getImageUrl()
+                        Log.d("qqqqqqq",imageUrl)
+
+                    }
+
+                    binding.imageProgressBar.visibility= View.GONE
+
+                }
+
+
+
+            }
+            else{
+                Toast.makeText(this, "Image can't be selected $path $imgUri", Toast.LENGTH_SHORT).show()
+            }
+
+        }
 
 
         binding.SubmitNewEvent.setOnClickListener {
@@ -79,7 +139,7 @@ class ManagementEditEvent : AppCompatActivity() {
         val content = binding.editTextDescription.text.toString()
         val location = binding.editTextLocation.text.toString()
         val registrationLink = binding.editTextEventLink.text.toString()
-        val imageLink = previousEvent.imageLink()
+        val imageLink = if(imageUrl!="") imageUrl else previousEvent.imageLink()
 
         val startDay = if(isStartDateChanged) toSendStartDate else previousEvent.startDay()
         val endDay = if(isEndDateChanged) toSendEndDate else previousEvent.endDay()
@@ -113,7 +173,7 @@ class ManagementEditEvent : AppCompatActivity() {
 
 //                        Toast.makeText(this@ManagementEditEvent, "Not Posting $response", Toast.LENGTH_SHORT)
 //                            .show()
-                        Toast.makeText(this@ManagementEditEvent, "Something Wrong", Toast.LENGTH_SHORT)
+                        Toast.makeText(this@ManagementEditEvent, "Something is Filled Wrong, Check Carefully", Toast.LENGTH_SHORT)
                             .show()
                         Log.d("adminEdit","NotDoneeeeeeeeeeeeeeee ${response.errorBody()?.byteStream()
                             ?.let { EventPostData.convertStreamToString(it) }}\n  $editedEvent")
@@ -216,5 +276,39 @@ class ManagementEditEvent : AppCompatActivity() {
             }}
             ,currentDate.year,currentDate.monthValue,currentDate.dayOfMonth)
         dialogDate.show()
+    }
+    fun getRealPathFromURI(uri: Uri, context: Context): String? {
+        val returnCursor = context.contentResolver.query(uri, null, null, null, null)
+        val nameIndex =  returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
+        returnCursor.moveToFirst()
+        val name = returnCursor.getString(nameIndex)
+        val size = returnCursor.getLong(sizeIndex).toString()
+        val file = File(context.filesDir, name)
+        try {
+            val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+            val outputStream = FileOutputStream(file)
+            var read = 0
+            val maxBufferSize = 1 * 1024 * 1024
+            val bytesAvailable: Int = inputStream?.available() ?: 0
+            //int bufferSize = 1024;
+            val bufferSize = Math.min(bytesAvailable, maxBufferSize)
+            val buffers = ByteArray(bufferSize)
+            while (inputStream?.read(buffers).also {
+                    if (it != null) {
+                        read = it
+                    }
+                } != -1) {
+                outputStream.write(buffers, 0, read)
+            }
+            Log.e("File Size", "Size " + file.length())
+            inputStream?.close()
+            outputStream.close()
+            Log.e("File Path", "Path " + file.path)
+
+        } catch (e: java.lang.Exception) {
+            Log.e("Exception", e.message!!)
+        }
+        return file.path
     }
 }

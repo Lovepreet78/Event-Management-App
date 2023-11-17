@@ -1,42 +1,39 @@
 package com.example.eventmanagement.admin.eventManager
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.FileUtils
-import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.eventmanagement.databinding.ActivityAdminEditEventBinding
 import com.example.eventmanagement.eventactivities.EventPostData
-import com.example.eventmanagement.eventactivities.imageSelectorBitmap.uriToBitmap
 import com.example.eventmanagement.eventmodel.EventPostDTO
 import com.example.eventmanagement.eventmodel.LocalTimeConverter
 import com.example.eventmanagement.retrofit.RetrofitClient
+import com.example.eventmanagement.imageUploader.ImageUploader1
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.eclipse.jetty.http.MultiPartFormInputStream.MultiPart
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.time.LocalDate
 import java.time.LocalTime
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import java.io.InputStream
 
 
 class AdminEditEvent : AppCompatActivity() {
@@ -49,20 +46,30 @@ class AdminEditEvent : AppCompatActivity() {
     var isEndTimeChanged :Boolean = false
     var isStartDateChanged :Boolean = false
     var isEndDateChanged :Boolean = false
-    lateinit var imageUri:Uri
-    var bitmapImage : Bitmap?=null
 
 
 
-
-    private var selectedImageUri: Uri? = null
-    private var eventIdForImage :Long = 0
+    private var imgUri:Uri?=null
+    private var imageUrl =""
+    private var job: Job?=null
+    private val contract = registerForActivityResult(ActivityResultContracts.GetContent()){
+        imgUri = it!!
+        if(imgUri!=null) {
+            binding.imageViewAdminEdit.setImageURI(imgUri)
+            binding.imageLayout.visibility = View.VISIBLE
+        }
+        else{
+            Toast.makeText(this, "Image can't be selected", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminEditEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title ="Edit Event : Admin"
+
+
 
         val intentFromEdit = intent
         val eventId  = intentFromEdit.getLongExtra("eventId",0)
@@ -75,14 +82,12 @@ class AdminEditEvent : AppCompatActivity() {
         val endTime = intentFromEdit.getStringExtra("endTime")
         val registrationLink = intentFromEdit.getStringExtra("registrationLink")
         val imageLink = intentFromEdit.getStringExtra("imageLink")
-        eventIdForImage= eventId.toLong()
+
 
         val previousEvent = EventPostDTO(eventId,title,content,location,registrationLink,imageLink,startDay,endDay,startTime,endTime)
 
 
-        val contract = registerForActivityResult(ActivityResultContracts.GetContent()){
-            imageUri  = it!!
-        }
+
 
         binding.startDateSelector.setOnClickListener {
             openStartDialogDate()
@@ -101,20 +106,6 @@ class AdminEditEvent : AppCompatActivity() {
             isEndTimeChanged=true
         }
 
-//        binding.imageSelector.setOnClickListener {
-//            contract.launch("Image/*")
-//            val selectedImageUri: Uri = imageString
-//            val bitmap = uriToBitmap(this, selectedImageUri)
-//
-//            if (bitmap != null) {
-//                bitmapImage = bitmap
-////                binding.imageConfirmed.visibility = View.VISIBLE
-//                var imageLink:String = imageToUrl(bitmapImage!!)
-//            } else {
-//
-//                Toast.makeText(this, "Image Selection failed , try again", Toast.LENGTH_SHORT).show()
-//            }
-//        }
 
 
 
@@ -125,88 +116,47 @@ class AdminEditEvent : AppCompatActivity() {
 
 
         binding.imageSelector.setOnClickListener {
-            pickImage()
+            contract.launch("image/*")
         }
+        binding.imageConfirmed.setOnClickListener {
+            val imageUploader = ImageUploader1()
+//            var path = imageUploader.getImageFilePath(this,imgUri)
+            var path = getRealPathFromURI(imgUri!!,this)
+            if(path!=null){
+                job?.cancel()
+                binding.imageProgressBar.visibility= View.VISIBLE
 
 
+                    job = CoroutineScope(Dispatchers.Main).launch{
+                        withContext(Dispatchers.IO){
 
+                            imageUploader.uploadImage(path!!)
+                            imageUrl = imageUploader.getImageUrl()
+                            Log.d("qqqqqqq",imageUrl)
 
+                        }
 
+                        binding.imageProgressBar.visibility= View.GONE
 
-
-    }
-    val pickImageLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // Image successfully picked
-                val data: Intent? = result.data
-                selectedImageUri = data?.data
-                // Now, you can upload the image
-                uploadImage()
-            }
-        }
-    private fun pickImage() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        pickImageLauncher.launch(intent)
-    }
-    private fun getFile(context: Context, uri: Uri): File {
-        val contentResolver = context.contentResolver
-        val file = File(context.cacheDir, "temp_image_file")
-        file.createNewFile()
-
-        try {
-            val inputStream: InputStream? = contentResolver.openInputStream(uri)
-            inputStream?.use { input ->
-                val outputStream = FileOutputStream(file)
-                outputStream.use { output ->
-                    val buffer = ByteArray(4 * 1024) // buffer size
-                    while (true) {
-                        val byteCount = input.read(buffer)
-                        if (byteCount < 0) break
-                        output.write(buffer, 0, byteCount)
                     }
-                    output.flush()
-                }
+
+
+
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            else{
+                Toast.makeText(this, "Image can't be selected $path $imgUri", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
-        return file
+
+
+
+
+
     }
-    private fun uploadImage() {
-        // Check if an image is selected
-        selectedImageUri?.let { uri ->
-            // Get the file name and create a request body
-            val file = getFile(this, uri)
-            val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-            val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
 
-            // Call the API for image upload
-            val apiService = RetrofitClient.create()
-            val call: Call<Void> = apiService.postImageByAdmin(eventIdForImage, body)
 
-            // Enqueue the call
-            call.enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(this@AdminEditEvent, "Image uploaded successfully", Toast.LENGTH_SHORT).show()
-                        // Image uploaded successfully
-                        Log.d("ImageUpload", "Image uploaded successfully")
-                    } else {
-                        // Handle the error
-                        Log.e("ImageUpload", "Image upload failed. ${
-                            response.errorBody()?.byteStream().toString()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    // Handle the failure
-                    Log.e("ImageUpload", "Image upload failed!!. ${t.message}")
-                }
-            })
-        }
-    }
 
 
     private fun updateEvent(eventId: Long, previousEvent: EventPostDTO) {
@@ -214,7 +164,7 @@ class AdminEditEvent : AppCompatActivity() {
         val content = binding.editTextDescription.text.toString()
         val location = binding.editTextLocation.text.toString()
         val registrationLink = binding.editTextEventLink.text.toString()
-        val imageLink = previousEvent.imageLink()
+        val imageLink = if(imageUrl!="") imageUrl else previousEvent.imageLink()
 
         val startDay = if(isStartDateChanged) toSendStartDate else previousEvent.startDay()
         val endDay = if(isEndDateChanged) toSendEndDate else previousEvent.endDay()
@@ -248,7 +198,7 @@ class AdminEditEvent : AppCompatActivity() {
 
 
 
-                            Toast.makeText(this@AdminEditEvent, "Something Wrong", Toast.LENGTH_SHORT)
+                            Toast.makeText(this@AdminEditEvent, "Something is Filled Wrong, Check Carefully", Toast.LENGTH_SHORT)
                                 .show()
                             Log.d("adminEdit","NotDoneeeeeeeeeeeeeeee ${response.errorBody()?.byteStream()
                                 ?.let { EventPostData.convertStreamToString(it) }}\n  $response")
@@ -348,19 +298,41 @@ class AdminEditEvent : AppCompatActivity() {
         dialogDate.show()
     }
 
-//    fun uploadImage(){
-//        var filesDir = applicationContext.filesDir
-//        var file = File(filesDir,"Image.png")
-//        val inputStream = contentResolver.openInputStream(imageUri)
-//        val outputStream = FileOutputStream(file)
-//        inputStream!!.copyTo(outputStream)
-//        val mediaType = "image/*".toMediaTypeOrNull()
-//        val requestBody = asRe
-//
-//        var p = MultipartBody.Part.createFormData("profile",file.name,requestBody)
-//    }
 
+    fun getRealPathFromURI(uri: Uri, context: Context): String? {
+        val returnCursor = context.contentResolver.query(uri, null, null, null, null)
+        val nameIndex =  returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
+        returnCursor.moveToFirst()
+        val name = returnCursor.getString(nameIndex)
+        val size = returnCursor.getLong(sizeIndex).toString()
+        val file = File(context.filesDir, name)
+        try {
+            val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+            val outputStream = FileOutputStream(file)
+            var read = 0
+            val maxBufferSize = 1 * 1024 * 1024
+            val bytesAvailable: Int = inputStream?.available() ?: 0
+            //int bufferSize = 1024;
+            val bufferSize = Math.min(bytesAvailable, maxBufferSize)
+            val buffers = ByteArray(bufferSize)
+            while (inputStream?.read(buffers).also {
+                    if (it != null) {
+                        read = it
+                    }
+                } != -1) {
+                outputStream.write(buffers, 0, read)
+            }
+            Log.e("File Size", "Size " + file.length())
+            inputStream?.close()
+            outputStream.close()
+            Log.e("File Path", "Path " + file.path)
 
+        } catch (e: java.lang.Exception) {
+            Log.e("Exception", e.message!!)
+        }
+        return file.path
+    }
 
 
 }

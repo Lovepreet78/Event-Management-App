@@ -3,10 +3,12 @@ package com.example.eventmanagement.eventactivities
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -17,14 +19,22 @@ import com.example.eventmanagement.eventactivities.imageSelectorBitmap.uriToBitm
 import com.example.eventmanagement.eventmodel.EventPostDTO
 import com.example.eventmanagement.eventmodel.LocalTimeConverter
 import com.example.eventmanagement.eventmodel.PostEventModel
+import com.example.eventmanagement.imageUploader.ImageUploader1
 import com.example.eventmanagement.retrofit.RetrofitClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.io.InputStream
 import java.nio.charset.Charset
 import java.time.LocalDate
@@ -37,8 +47,21 @@ class EventPostData : AppCompatActivity() {
     var toSendStartDate:LocalDate= LocalDate.now()
     var toSendEndTime:LocalTime = LocalTime.now()
     var toSendEndDate:LocalDate = LocalDate.now()
-    var imageString:Uri = Uri.EMPTY
-    var bitmapImage : Bitmap?=null
+
+
+    private lateinit var imgUri:Uri
+    private var imageUrl =""
+    private var job: Job?=null
+    private val contract = registerForActivityResult(ActivityResultContracts.GetContent()){
+        imgUri = it!!
+        if(imgUri!=null) {
+            binding.imageViewAdminEdit.setImageURI(imgUri)
+            binding.imageLayout.visibility = View.VISIBLE
+        }
+        else{
+            Toast.makeText(this, "Image can't be selected", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,25 +82,39 @@ class EventPostData : AppCompatActivity() {
         binding.endTimeSelector.setOnClickListener {
             openEndDialogTime()
         }
-//        val contract = registerForActivityResult(ActivityResultContracts.GetContent()){
-//            imageString = it ?: Uri.EMPTY
-//        }
-//        binding.imageSelector.setOnClickListener {
-//            contract.launch("Image/*")
-//            val selectedImageUri: Uri = imageString
-//            val bitmap = uriToBitmap(this, selectedImageUri)
-//
-//            if (bitmap != null) {
-//                bitmapImage = bitmap
-//                binding.imageConfirmed.visibility = View.VISIBLE
-//            } else {
-//
-//                Toast.makeText(this, "Image Selection failed , try again", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        binding.imageConfirmed.setOnClickListener {
-//            var imageLink:String = imageToUrl(bitmapImage!!)
-//        }
+        binding.imageSelector.setOnClickListener {
+            contract.launch("image/*")
+        }
+        binding.imageConfirmed.setOnClickListener {
+            val imageUploader = ImageUploader1()
+//            var path = imageUploader.getImageFilePath(this,imgUri)
+            var path = getRealPathFromURI(imgUri!!,this)
+            if(path!=null){
+                job?.cancel()
+                binding.imageProgressBar.visibility= View.VISIBLE
+
+
+                job = CoroutineScope(Dispatchers.Main).launch{
+                    withContext(Dispatchers.IO){
+
+                        imageUploader.uploadImage(path!!)
+                        imageUrl = imageUploader.getImageUrl()
+                        Log.d("qqqqqqq",imageUrl)
+
+                    }
+
+                    binding.imageProgressBar.visibility= View.GONE
+
+                }
+
+
+
+            }
+            else{
+                Toast.makeText(this, "Image can't be selected $path $imgUri", Toast.LENGTH_SHORT).show()
+            }
+
+        }
         binding.SubmitNewEvent.setOnClickListener {
             val eventTitle = binding.editTextTitle.text.toString()
             val eventDescription = binding.editTextDescription.text.toString()
@@ -87,15 +124,13 @@ class EventPostData : AppCompatActivity() {
 
             val endDate = binding.endDateShower.text.toString()
 
-            val imageLink: String? = null
+            val imageLink: String = imageUrl
 //            val enrollmentLink: String? = binding.registrtionLink.text.toString()
             val enrollmentLink: String = binding.editTextEventLink.text.toString()
 
 
 
             val e1 = EventPostDTO(100,eventTitle,eventDescription,eventLocation,enrollmentLink,imageLink,toSendStartDate.toString(),toSendEndDate.toString(),toSendStartTime.toString(),toSendEndTime.toString());
-
-
             submitNewEvent(e1)
         }
 
@@ -121,7 +156,7 @@ class EventPostData : AppCompatActivity() {
                             "Event post Successfully",
                             Toast.LENGTH_SHORT
                         ).show()
-                    Log.d("realme",event.toString())
+
 
 
                     }
@@ -129,7 +164,7 @@ class EventPostData : AppCompatActivity() {
 
 
 
-                        Toast.makeText(this@EventPostData, "Not Posting $response", Toast.LENGTH_SHORT)
+                        Toast.makeText(this@EventPostData, "Something is Filled Wrong, Check Carefully", Toast.LENGTH_SHORT)
                             .show()
                         Log.e("posttest","NotDoneeeeeeeeeeeeeeee ${response.errorBody()?.byteStream()
                             ?.let { convertStreamToString(it) }}\n  $event")
@@ -219,7 +254,40 @@ class EventPostData : AppCompatActivity() {
         }
     }
 
+    fun getRealPathFromURI(uri: Uri, context: Context): String? {
+        val returnCursor = context.contentResolver.query(uri, null, null, null, null)
+        val nameIndex =  returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
+        returnCursor.moveToFirst()
+        val name = returnCursor.getString(nameIndex)
+        val size = returnCursor.getLong(sizeIndex).toString()
+        val file = File(context.filesDir, name)
+        try {
+            val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+            val outputStream = FileOutputStream(file)
+            var read = 0
+            val maxBufferSize = 1 * 1024 * 1024
+            val bytesAvailable: Int = inputStream?.available() ?: 0
+            //int bufferSize = 1024;
+            val bufferSize = Math.min(bytesAvailable, maxBufferSize)
+            val buffers = ByteArray(bufferSize)
+            while (inputStream?.read(buffers).also {
+                    if (it != null) {
+                        read = it
+                    }
+                } != -1) {
+                outputStream.write(buffers, 0, read)
+            }
+            Log.e("File Size", "Size " + file.length())
+            inputStream?.close()
+            outputStream.close()
+            Log.e("File Path", "Path " + file.path)
 
+        } catch (e: java.lang.Exception) {
+            Log.e("Exception", e.message!!)
+        }
+        return file.path
+    }
 
 
 }

@@ -78,11 +78,11 @@ interface EventsApi {
     //image link generation
     @Multipart
     @POST("admin/events/image/upload/{id}")
-    fun postImageByAdmin(@Path("id") id:Long,@Part image:MultipartBody.Part):Call<Void>
+    fun postImageByAdmin(@Path("id") id:Long,@Part image:MultipartBody):Call<String>
 
     @Multipart
     @POST("user/events/image/upload/{id}")
-    fun postImageByManagement(@Path("id") id:Long,@Part image:MultipartBody.Part):Call<Void>
+    fun postImageByManagement(@Path("id") id:Long,@Part image:MultipartBody.Part):Call<String>
 
 
 

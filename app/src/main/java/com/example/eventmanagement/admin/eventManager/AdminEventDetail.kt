@@ -109,7 +109,10 @@ class AdminEventDetail : AppCompatActivity() {
 //    }
 
     private fun intentToBrowser(regLink: String) {
-        if(regLink=="") return
+        if(regLink=="") {
+            Toast.makeText(this@AdminEventDetail, "No Registration", Toast.LENGTH_SHORT).show()
+            return
+        }
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(regLink))
 
         // Check if there is a web browser available to handle the intent

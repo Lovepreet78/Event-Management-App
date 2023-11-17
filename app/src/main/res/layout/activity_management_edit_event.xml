@@ -180,6 +180,42 @@
 
                 />
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/imageLayout">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:id="@+id/imageProgressBar"
+                    android:layout_centerInParent="true"/>
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/imageViewAdminEdit"
+                    android:layout_margin="10dp"
+
+
+                    />
+                <com.google.android.material.button.MaterialButton
+                    android:layout_margin="10dp"
+
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Confirm Image"
+                    android:id="@+id/imageConfirmed"
+                    android:layout_centerVertical="true"
+
+                    />
+
+
+            </RelativeLayout>
+
 
 
 
